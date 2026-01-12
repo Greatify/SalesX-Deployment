@@ -101,6 +101,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./frontend/Dockerfile
           push: true
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/salesx:${{ steps.generate-tag.outputs.IMAGE_TAG }}
