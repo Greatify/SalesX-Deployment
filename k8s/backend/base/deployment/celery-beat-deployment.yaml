@@ -82,13 +82,13 @@ spec:
             postStart:
               exec:
                 command: ['sh', '-c', 'cp -R /mnt/secret-store/.env /app/.env']
-          # livenessProbe:
-          #   exec:
-          #     command:
-          #       - sh
-          #       - -c
-          #       - ps aux | grep 'celery beat' | grep -v grep
-          #   initialDelaySeconds: 30
-          #   periodSeconds: 30
-          #   timeoutSeconds: 5
-          #   failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - ps aux | grep 'celery beat' | grep -v grep
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
