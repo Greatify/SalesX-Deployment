@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Fix-Dockerfile-FROM-casing-for-cons-dfa1f429f185c53cfd580990173f98ab625d1d5f
+    newTag: backend-Add-django_celery_beat-to-INSTALLED-710a4fc294494e3ed9cf452e8ebe8c455b66c2e0
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Fix-Dockerfile-FROM-casing-for-cons-dfa1f429f185c53cfd580990173f98ab625d1d5f"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-django_celery_beat-to-INSTALLED-710a4fc294494e3ed9cf452e8ebe8c455b66c2e0"
