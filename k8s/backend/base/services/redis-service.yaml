@@ -1,6 +1,26 @@
 apiVersion: v1
 kind: Service
 metadata:
+  name: salesx-redis-headless
+  labels:
+    app: salesx
+    component: redis
+    tier: cache
+spec:
+  clusterIP: None
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app: salesx
+    component: redis
+    tier: cache
+---
+apiVersion: v1
+kind: Service
+metadata:
   name: salesx-redis
   labels:
     app: salesx

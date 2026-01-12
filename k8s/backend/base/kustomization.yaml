@@ -21,13 +21,13 @@ resources:
   - deployment/postgresql-statefulset.yaml
   
   # pgAdmin
-  - deployment/pgadmin-deployment.yaml
+  # - deployment/pgadmin-deployment.yaml
   
   # Services
   - services/django-backend-service.yaml
-  - services/redis-service.yaml
-  - services/postgresql-service.yaml
-  - services/pgadmin-service.yaml
+  # - services/redis-service.yaml
+  # - services/postgresql-service.yaml
+  # - services/pgadmin-service.yaml
   
   # Ingress
   - ingress/backend-ingress.yaml
@@ -38,8 +38,8 @@ resources:
   
   # Secrets
   - secrets/salesx-backend-secrets.yaml
-  - secrets/salesx-backup-secrets.yaml
-  - secrets/pgadmin-secret.yaml
+  # - secrets/salesx-backup-secrets.yaml
+  # - secrets/pgadmin-secret.yaml
   
   # Volumes
   - volumes/media-pvc.yaml
@@ -53,8 +53,8 @@ resources:
   - storage/efs-storageclass.yaml
   
   # CronJobs
-  - cronjobs/postgresql-backup-cronjob.yaml
-  - cronjobs/redis-cleanup-cronjob.yaml
+  # - cronjobs/postgresql-backup-cronjob.yaml
+  # - cronjobs/redis-cleanup-cronjob.yaml
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
