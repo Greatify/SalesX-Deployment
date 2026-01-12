@@ -8,16 +8,6 @@ on:
         required: true
         type: string
         default: 'main'
-      commit_sha:
-        description: 'Git SHA of the commit'
-        required: false
-        type: string
-        default: 'latest'
-      commit_message:
-        description: 'Original commit message'
-        required: false
-        type: string
-        default: 'Manual deployment'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -28,12 +18,6 @@ jobs:
     runs-on: ubuntu-24.04-arm
     environment: production
     steps:
-      - name: Display Build Information
-        run: |
-          echo "Branch: ${{ github.event.inputs.deploy_branch }}"
-          echo "Commit SHA: ${{ github.event.inputs.commit_sha }}"
-          echo "Commit Message: ${{ github.event.inputs.commit_message }}"
-
       - name: Checkout source repository code
         uses: actions/checkout@v4
         with:
@@ -41,6 +25,20 @@ jobs:
           ref: ${{ github.event.inputs.deploy_branch }}
           repository: 'Greatify/SalesX'
           token: ${{ secrets.PAT_TOKEN }}
+      
+      - name: Get commit information
+        id: commit_info
+        run: |
+          COMMIT_SHA=$(git rev-parse HEAD)
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "sha=${COMMIT_SHA}" >> $GITHUB_OUTPUT
+          echo "message=${COMMIT_MSG}" >> $GITHUB_OUTPUT
+      
+      - name: Display Build Information
+        run: |
+          echo "Branch: ${{ github.event.inputs.deploy_branch }}"
+          echo "Commit SHA: ${{ steps.commit_info.outputs.sha }}"
+          echo "Commit Message: ${{ steps.commit_info.outputs.message }}"
 
       - name: Configure AWS credentials for ECR
         uses: aws-actions/configure-aws-credentials@v3
@@ -81,8 +79,8 @@ jobs:
       - name: Generate frontend image tag
         id: generate-tag
         run: |
-          COMMIT_ID="${{ github.event.inputs.commit_sha }}"
-          COMMIT_MSG="${{ github.event.inputs.commit_message }}"
+          COMMIT_ID="${{ steps.commit_info.outputs.sha }}"
+          COMMIT_MSG="${{ steps.commit_info.outputs.message }}"
           
           # Remove newlines, tabs, and limit length
           CLEAN_MSG=$(echo "$COMMIT_MSG" | tr -d '\n\r\t' | head -c 60 | tr -s ' ' | xargs || echo "no-message")
@@ -175,7 +173,7 @@ jobs:
             echo "No changes to commit, skipping commit and push"
           else
             echo "Changes detected, committing and pushing"
-            git commit -m "🚀 Update Frontend image tags for prod deployment - ${{ github.event.inputs.commit_message }}"
+            git commit -m "🚀 Update Frontend image tags for prod deployment - ${{ steps.commit_info.outputs.message }}"
             git push origin main
           fi
 
