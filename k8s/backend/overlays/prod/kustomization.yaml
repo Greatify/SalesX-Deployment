@@ -11,6 +11,8 @@ commonLabels:
 
 bases:
   - ../../base
+  - patches/storage/pv.yaml
+  - patches/storage/pvc.yaml
 
 patchesStrategicMerge:
   - patches/django-backend-patch.yaml

@@ -40,17 +40,11 @@ resources:
   - secrets/salesx-backend-secrets.yaml
   # - secrets/salesx-backup-secrets.yaml
   # - secrets/pgadmin-secret.yaml
-  
-  # Volumes
-  - volumes/media-pvc.yaml
-  
+    
   # Autoscaling
   - autoscaling/django-backend-hpa.yaml
   - autoscaling/celery-worker-hpa.yaml
   - autoscaling/redis-hpa.yaml
-  
-  # Storage
-  - storage/efs-storageclass.yaml
   
   # CronJobs
   # - cronjobs/postgresql-backup-cronjob.yaml
