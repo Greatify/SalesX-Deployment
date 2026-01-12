@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-application-launcher-for-managi-2618f0e7aea48869e495a4cb1522b51476e69d97
+    newTag: backend-Update-settingspy-to-trust-proxy-he-6fcbf2d480d432f611a4295b209aa114f9567ba9
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-application-launcher-for-managi-2618f0e7aea48869e495a4cb1522b51476e69d97"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-settingspy-to-trust-proxy-he-6fcbf2d480d432f611a4295b209aa114f9567ba9"
