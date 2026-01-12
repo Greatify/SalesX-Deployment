@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-django_celery_beat-to-INSTALLED-710a4fc294494e3ed9cf452e8ebe8c455b66c2e0
+    newTag: backend-Add-application-launcher-for-managi-2618f0e7aea48869e495a4cb1522b51476e69d97
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-django_celery_beat-to-INSTALLED-710a4fc294494e3ed9cf452e8ebe8c455b66c2e0"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-application-launcher-for-managi-2618f0e7aea48869e495a4cb1522b51476e69d97"
