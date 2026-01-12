@@ -21,7 +21,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-CI-workflows-for-SalesX-includi-6fc688d9adc012b1e23b5d1ab8f837a1a4e8c282
+    newTag: backend-Fix-Dockerfile-FROM-casing-for-cons-dfa1f429f185c53cfd580990173f98ab625d1d5f
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-CI-workflows-for-SalesX-includi-6fc688d9adc012b1e23b5d1ab8f837a1a4e8c282"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Fix-Dockerfile-FROM-casing-for-cons-dfa1f429f185c53cfd580990173f98ab625d1d5f"
