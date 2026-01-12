@@ -17,7 +17,7 @@ spec:
         - name: DEBUG
           value: "False"
         - name: ALLOWED_HOSTS
-          value: "klockwork.ai,klockwork.ai,*.klockwork.ai"
+          value: "klockwork.ai,*.klockwork.ai,localhost,127.0.0.1"
         resources:
           requests:
             memory: "768Mi"

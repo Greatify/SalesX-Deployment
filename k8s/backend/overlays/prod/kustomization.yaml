@@ -18,8 +18,8 @@ patchesStrategicMerge:
   - patches/django-backend-patch.yaml
   - patches/celery-worker-patch.yaml
   - patches/celery-beat-patch.yaml
-  - patches/redis-patch.yaml
-  - patches/postgresql-patch.yaml
+  # - patches/redis-patch.yaml
+  # - patches/postgresql-patch.yaml
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
