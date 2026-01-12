@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Update-settingspy-to-trust-proxy-he-6fcbf2d480d432f611a4295b209aa114f9567ba9
+    newTag: backend-Update-settingspy-to-disable-SSL-re-d57d950a229c3092ca91fd89f259e00c2594ab10
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-settingspy-to-trust-proxy-he-6fcbf2d480d432f611a4295b209aa114f9567ba9"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-settingspy-to-disable-SSL-re-d57d950a229c3092ca91fd89f259e00c2594ab10"
