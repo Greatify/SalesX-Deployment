@@ -17,8 +17,8 @@ resources:
   - deployment/celery-beat-deployment.yaml
   
   # StatefulSets
-  - deployment/redis-statefulset.yaml
-  - deployment/postgresql-statefulset.yaml
+  # - deployment/redis-statefulset.yaml
+  # - deployment/postgresql-statefulset.yaml
   
   # pgAdmin
   # - deployment/pgadmin-deployment.yaml
