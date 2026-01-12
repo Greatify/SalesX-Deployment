@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: salesx-postgresql
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        environment: production
+    spec:
+      containers:
+      - name: postgresql
+        env:
+        - name: POSTGRES_DB
+          value: "salesx"
+        - name: POSTGRES_USER
+          value: "salesx"
+        - name: POSTGRES_PASSWORD
+          value: "c2FsZXN4X3Byb2Q="
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+  volumeClaimTemplates:
+  - metadata:
+      name: postgresql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]  # EBS only supports RWO
+      storageClassName: gp3           # EBS gp3 for better database performance
+      resources:
+        requests:
+          storage: 20Gi  # Increased for production

@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: salesx-redis-headless
+  labels:
+    app: salesx
+    component: redis
+    tier: cache
+spec:
+  clusterIP: None
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+    name: redis
+  selector:
+    app: salesx
+    component: redis
+    tier: cache
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: salesx-redis
+  labels:
+    app: salesx
+    component: redis
+    tier: cache
+spec:
+  serviceName: salesx-redis-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: salesx
+      component: redis
+      tier: cache
+  template:
+    metadata:
+      labels:
+        app: salesx
+        component: redis
+        tier: cache
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+          name: redis
+          protocol: TCP
+        command:
+          - redis-server
+          - --appendonly
+          - "yes"
+          - --maxmemory
+          - "256mb"
+          - --maxmemory-policy
+          - "allkeys-lru"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - redis-cli
+            - ping
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: gp3
+      resources:
+        requests:
+          storage: 10Gi

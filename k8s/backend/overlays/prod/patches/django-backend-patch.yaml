@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salesx-backend
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        environment: production
+    spec:
+      containers:
+      - name: backend
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DEBUG
+          value: "False"
+        - name: ALLOWED_HOSTS
+          value: "klockwork.ai,klockwork.ai,*.klockwork.ai"
+        resources:
+          requests:
+            memory: "768Mi"
+            cpu: "400m"
+          limits:
+            memory: "1536Mi"
+            cpu: "800m"

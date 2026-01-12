@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salesx-celery-worker
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        environment: production
+    spec:
+      containers:
+      - name: celery-worker
+        args:
+          - "-A"
+          - "config"
+          - "worker"
+          - "--loglevel=info"
+          - "--concurrency=6"
+          - "--max-tasks-per-child=500"
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "2560Mi"
+            cpu: "1500m"

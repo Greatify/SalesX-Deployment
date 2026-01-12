@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salesx-celery-worker
+  labels:
+    app: salesx
+    app.kubernetes.io/name: salesx
+    app.kubernetes.io/part-of: salesx-platform
+    component: celery-worker
+    tier: worker
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: salesx
+      app.kubernetes.io/name: salesx
+      app.kubernetes.io/part-of: salesx-platform
+      component: celery-worker
+      tier: worker
+  template:
+    metadata:
+      labels:
+        app: salesx
+        app.kubernetes.io/name: salesx
+        app.kubernetes.io/part-of: salesx-platform
+        component: celery-worker
+        tier: worker
+    spec:
+      serviceAccountName: salesx-backend-secret-sa
+      terminationGracePeriodSeconds: 60
+      volumes:
+        - name: salesx-secrets-volume
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: salesx-backend-secrets
+        - name: salesx-storage
+          persistentVolumeClaim:
+            claimName: salesx-media-pvc
+        - name: logs-volume
+          emptyDir: {}
+      containers:
+        - name: celery-worker
+          image: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-latest
+          imagePullPolicy: Always
+          command: ["celery"]
+          args:
+            - "-A"
+            - "config"
+            - "worker"
+            - "--loglevel=info"
+            - "--concurrency=4"
+            - "--max-tasks-per-child=1000"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "1Gi"
+            limits:
+              cpu: "2000m"
+              memory: "4Gi"
+          env:
+            - name: REDIS_URL
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/0"
+            - name: CACHE_URL
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/1"
+            - name: CELERY_BROKER_URL
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/0"
+            - name: CELERY_RESULT_BACKEND
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/0"
+            - name: DJANGO_SETTINGS_MODULE
+              value: "config.settings.production"
+            - name: ENVIRONMENT
+              value: "production"
+            - name: C_FORCE_ROOT
+              value: "true"
+          volumeMounts:
+            - name: salesx-secrets-volume
+              mountPath: /mnt/secret-store
+              readOnly: true
+            - name: salesx-storage
+              mountPath: /app/media
+            - name: logs-volume
+              mountPath: /app/logs
+          lifecycle:
+            postStart:
+              exec:
+                command: ['sh', '-c', 'cp -R /mnt/secret-store/.env /app/.env']
+          livenessProbe:
+            exec:
+              command:
+                - celery
+                - -A
+                - config
+                - inspect
+                - ping
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 5
+          readinessProbe:
+            exec:
+              command:
+                - celery
+                - -A
+                - config
+                - inspect
+                - ping
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3

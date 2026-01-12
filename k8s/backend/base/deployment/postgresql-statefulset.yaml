@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: salesx-postgresql
+  labels:
+    app: salesx
+    component: postgresql
+    tier: database
+spec:
+  serviceName: salesx-postgresql-headless
+  replicas: 1
+  selector:
+    matchLabels:
+      app: salesx
+      component: postgresql
+      tier: database
+  template:
+    metadata:
+      labels:
+        app: salesx
+        component: postgresql
+        tier: database
+    spec:
+      containers:
+      - name: postgresql
+        image: postgres:16-alpine
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+          name: postgresql
+          protocol: TCP
+        env:
+        - name: POSTGRES_DB
+          value: "salesx"
+        - name: POSTGRES_USER
+          value: "salesx"
+        - name: POSTGRES_PASSWORD
+          value: "c2FsZXN4X3Byb2Q="
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        livenessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - $(POSTGRES_USER)
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - pg_isready
+            - -U
+            - $(POSTGRES_USER)
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        volumeMounts:
+        - name: postgresql-data
+          mountPath: /var/lib/postgresql/data
+  volumeClaimTemplates:
+  - metadata:
+      name: postgresql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]  # EBS only supports RWO
+      storageClassName: gp3           # EBS gp3 for better database performance
+      resources:
+        requests:
+          storage: 20Gi

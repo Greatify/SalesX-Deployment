@@ -1,0 +1,94 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salesx-celery-beat
+  labels:
+    app: salesx
+    app.kubernetes.io/name: salesx
+    app.kubernetes.io/part-of: salesx-platform
+    component: celery-beat
+    tier: scheduler
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: salesx
+      app.kubernetes.io/name: salesx
+      app.kubernetes.io/part-of: salesx-platform
+      component: celery-beat
+      tier: scheduler
+  template:
+    metadata:
+      labels:
+        app: salesx
+        app.kubernetes.io/name: salesx
+        app.kubernetes.io/part-of: salesx-platform
+        component: celery-beat
+        tier: scheduler
+    spec:
+      serviceAccountName: salesx-backend-secret-sa
+      terminationGracePeriodSeconds: 30
+      volumes:
+        - name: salesx-secrets-volume
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: salesx-backend-secrets
+        - name: logs-volume
+          emptyDir: {}
+      containers:
+        - name: celery-beat
+          image: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-latest
+          imagePullPolicy: Always
+          command: ["celery"]
+          args:
+            - "-A"
+            - "config"
+            - "beat"
+            - "--loglevel=info"
+            - "--scheduler=django_celery_beat.schedulers:DatabaseScheduler"
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2Gi"
+          env:
+            - name: REDIS_URL
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/0"
+            - name: CACHE_URL
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/1"
+            - name: CELERY_BROKER_URL
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/0"
+            - name: CELERY_RESULT_BACKEND
+              value: "redis://salesx-redis-0.salesx-redis-headless:6379/0"
+            - name: DJANGO_SETTINGS_MODULE
+              value: "config.settings.production"
+            - name: ENVIRONMENT
+              value: "production"
+            - name: C_FORCE_ROOT
+              value: "true"
+          volumeMounts:
+            - name: salesx-secrets-volume
+              mountPath: /mnt/secret-store
+              readOnly: true
+            - name: logs-volume
+              mountPath: /app/logs
+          lifecycle:
+            postStart:
+              exec:
+                command: ['sh', '-c', 'cp -R /mnt/secret-store/.env /app/.env']
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - ps aux | grep 'celery beat' | grep -v grep
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3

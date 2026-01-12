@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: salesx-postgresql-headless
+  labels:
+    app: salesx
+    component: postgresql
+    tier: database
+spec:
+  clusterIP: None
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgresql
+  selector:
+    app: salesx
+    component: postgresql
+    tier: database
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: salesx-postgresql
+  labels:
+    app: salesx
+    component: postgresql
+    tier: database
+spec:
+  type: ClusterIP
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP
+    name: postgresql
+  selector:
+    app: salesx
+    component: postgresql
+    tier: database

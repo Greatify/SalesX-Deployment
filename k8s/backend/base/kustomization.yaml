@@ -1,0 +1,61 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: salesx-backend-base
+
+namespace: salesx-production
+
+commonLabels:
+  app: salesx
+  managed-by: kustomize
+
+resources:
+  # Deployments
+  - deployment/django-backend-deployment.yaml
+  - deployment/celery-worker-deployment.yaml
+  - deployment/celery-beat-deployment.yaml
+  
+  # StatefulSets
+  - deployment/redis-statefulset.yaml
+  - deployment/postgresql-statefulset.yaml
+  
+  # pgAdmin
+  - deployment/pgadmin-deployment.yaml
+  
+  # Services
+  - services/django-backend-service.yaml
+  - services/redis-service.yaml
+  - services/postgresql-service.yaml
+  - services/pgadmin-service.yaml
+  
+  # Ingress
+  - ingress/backend-ingress.yaml
+  
+  # ConfigMaps
+  - configmap/nginx-config.yaml
+  - configmap/pgadmin-config.yaml
+  
+  # Secrets
+  - secrets/salesx-backend-secrets.yaml
+  - secrets/salesx-backup-secrets.yaml
+  - secrets/pgadmin-secret.yaml
+  
+  # Volumes
+  - volumes/media-pvc.yaml
+  
+  # Autoscaling
+  - autoscaling/django-backend-hpa.yaml
+  - autoscaling/celery-worker-hpa.yaml
+  - autoscaling/redis-hpa.yaml
+  
+  # Storage
+  - storage/efs-storageclass.yaml
+  
+  # CronJobs
+  - cronjobs/postgresql-backup-cronjob.yaml
+  - cronjobs/redis-cleanup-cronjob.yaml
+
+images:
+  - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
+    newTag: backend-latest

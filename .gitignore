@@ -1,0 +1,22 @@
+# Secrets with real credentials (never commit these!)
+k8s/**/secrets/*-secrets.yaml.local
+*.secret
+*.credentials
+
+# Environment files with real values
+.env.local
+.env.production.local
+
+# Kubernetes temporary files
+*.tmp.yaml
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

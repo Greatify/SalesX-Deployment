@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+metadata:
+  name: salesx-frontend-prod
+
+namespace: salesx-production
+
+commonLabels:
+  environment: production
+
+bases:
+  - ../../base
+
+patchesStrategicMerge:
+  - patches/frontend-patch.yaml
+
+images:
+  - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
+    newTag: frontend-latest
+
+commonAnnotations:
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-latest"

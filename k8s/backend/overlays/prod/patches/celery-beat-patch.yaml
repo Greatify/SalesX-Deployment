@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: salesx-celery-beat
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        environment: production
+    spec:
+      containers:
+      - name: celery-beat
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        resources:
+          requests:
+            memory: "384Mi"
+            cpu: "150m"
+          limits:
+            memory: "768Mi"
+            cpu: "400m"

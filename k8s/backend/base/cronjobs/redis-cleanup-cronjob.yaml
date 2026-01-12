@@ -1,0 +1,79 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: salesx-redis-cleanup
+  labels:
+    app: salesx
+    component: redis-cleanup
+spec:
+  schedule: "*/5 * * * *"  # Every 5 minutes
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      template:
+        metadata:
+          labels:
+            app: salesx
+            component: redis-cleanup
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: redis-cleanup
+            image: redis:7-alpine
+            command:
+            - /bin/sh
+            - -c
+            - |
+              set -e
+              
+              echo "Starting Redis cleanup at $(date)"
+              
+              REDIS_HOST="salesx-redis-0.salesx-redis-headless"
+              REDIS_PORT="6379"
+              
+              # Check Redis connection
+              if ! redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} ping > /dev/null 2>&1; then
+                echo "ERROR: Cannot connect to Redis"
+                exit 1
+              fi
+              
+              # Get memory info before cleanup
+              MEMORY_BEFORE=$(redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} INFO memory | grep used_memory_human | cut -d: -f2 | tr -d '\r')
+              echo "Memory before cleanup: ${MEMORY_BEFORE}"
+              
+              # Force eviction of expired keys
+              # Redis lazy deletes expired keys, this forces active cleanup
+              redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} --scan --pattern "*" | head -n 1000 | while read key; do
+                TTL=$(redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} TTL "$key")
+                if [ "$TTL" = "-2" ]; then
+                  # Key doesn't exist (already expired)
+                  continue
+                fi
+              done
+              
+              # Run MEMORY PURGE to free memory from deleted keys
+              redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} MEMORY PURGE || echo "MEMORY PURGE not supported, skipping"
+              
+              # Get memory info after cleanup
+              MEMORY_AFTER=$(redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} INFO memory | grep used_memory_human | cut -d: -f2 | tr -d '\r')
+              echo "Memory after cleanup: ${MEMORY_AFTER}"
+              
+              # Get stats
+              TOTAL_KEYS=$(redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} DBSIZE | awk '{print $2}')
+              EXPIRED_KEYS=$(redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} INFO stats | grep expired_keys | cut -d: -f2 | tr -d '\r')
+              EVICTED_KEYS=$(redis-cli -h ${REDIS_HOST} -p ${REDIS_PORT} INFO stats | grep evicted_keys | cut -d: -f2 | tr -d '\r')
+              
+              echo "Total keys: ${TOTAL_KEYS}"
+              echo "Total expired keys (lifetime): ${EXPIRED_KEYS}"
+              echo "Total evicted keys (lifetime): ${EVICTED_KEYS}"
+              echo "Redis cleanup completed successfully"
+            resources:
+              requests:
+                memory: "64Mi"
+                cpu: "50m"
+              limits:
+                memory: "128Mi"
+                cpu: "100m"
