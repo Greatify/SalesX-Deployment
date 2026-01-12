@@ -42,7 +42,7 @@ spec:
               secretProviderClass: salesx-backend-secrets
         - name: salesx-storage
           persistentVolumeClaim:
-            claimName: salesx-media-pvc
+            claimName: salesx-backend-pvc
         - name: logs-volume
           emptyDir: {}
       containers:
