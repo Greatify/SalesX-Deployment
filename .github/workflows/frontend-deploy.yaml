@@ -10,12 +10,14 @@ on:
         default: 'main'
       commit_sha:
         description: 'Git SHA of the commit'
-        required: true
+        required: false
         type: string
+        default: 'latest'
       commit_message:
         description: 'Original commit message'
-        required: true
+        required: false
         type: string
+        default: 'Manual deployment'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
