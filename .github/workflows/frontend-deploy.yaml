@@ -26,11 +26,11 @@ jobs:
           repository: 'Greatify/SalesX'
           token: ${{ secrets.PAT_TOKEN }}
       
-      - name: Get commit information
+      - name: Get commit information from source repo
         id: commit_info
         run: |
+          # Get the latest commit from the checked out source repo
           COMMIT_SHA=$(git rev-parse HEAD)
-          COMMIT_MSG=$(git log -1 --pretty=%B | head -1)
           echo "sha=${COMMIT_SHA}" >> $GITHUB_OUTPUT
           {
             echo "message<<EOF"
