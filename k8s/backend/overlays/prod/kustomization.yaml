@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Update-settingspy-to-disable-SSL-re-d57d950a229c3092ca91fd89f259e00c2594ab10
+    newTag: backend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-settingspy-to-disable-SSL-re-d57d950a229c3092ca91fd89f259e00c2594ab10"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59"
