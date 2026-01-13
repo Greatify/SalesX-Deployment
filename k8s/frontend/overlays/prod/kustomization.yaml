@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Fix-Dockerfile-FROM-casing-for-cons-dfa1f429f185c53cfd580990173f98ab625d1d5f
+    newTag: frontend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Fix-Dockerfile-FROM-casing-for-cons-dfa1f429f185c53cfd580990173f98ab625d1d5f"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59"
