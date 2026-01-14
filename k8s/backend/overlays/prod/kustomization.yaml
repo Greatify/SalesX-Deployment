@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59
+    newTag: backend-Merge-pull-request-2-from-Greatifyp-574a78bebc8c2974ee5f20a8ca959e08e8967246
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Merge-pull-request-2-from-Greatifyp-574a78bebc8c2974ee5f20a8ca959e08e8967246"
