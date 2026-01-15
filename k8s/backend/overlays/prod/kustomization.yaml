@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-bulk-import-functionality-for-l-b6fa3ffbc0a247d6bdf6484fde172ab239936d8f
+    newTag: backend-Add-call-tracking-and-statistics-fe-4c2bdccec0ea480663f86505c944c8379062ee1f
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-bulk-import-functionality-for-l-b6fa3ffbc0a247d6bdf6484fde172ab239936d8f"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-call-tracking-and-statistics-fe-4c2bdccec0ea480663f86505c944c8379062ee1f"
