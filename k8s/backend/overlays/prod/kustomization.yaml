@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-call-tracking-and-statistics-fe-4c2bdccec0ea480663f86505c944c8379062ee1f
+    newTag: backend-Enhance-DailyPlanViewSet-and-UserVi-7572938932904a5ee71fe8179a4b1bbf0409c98c
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-call-tracking-and-statistics-fe-4c2bdccec0ea480663f86505c944c8379062ee1f"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-DailyPlanViewSet-and-UserVi-7572938932904a5ee71fe8179a4b1bbf0409c98c"
