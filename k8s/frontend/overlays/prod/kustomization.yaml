@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59
+    newTag: frontend-Add-bulk-import-functionality-for-l-b6fa3ffbc0a247d6bdf6484fde172ab239936d8f
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-application-launcher-for-59b27c040ed7dda3820384ecd16b5805b3497d59"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-bulk-import-functionality-for-l-b6fa3ffbc0a247d6bdf6484fde172ab239936d8f"
