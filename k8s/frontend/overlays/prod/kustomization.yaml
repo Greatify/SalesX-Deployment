@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-DailyPlanViewSet-and-UserVi-7572938932904a5ee71fe8179a4b1bbf0409c98c
+    newTag: frontend-Add-quote-approval-workflow-and-tar-d84a396b51e18b0a3c35e3a129b1720bc48a58ac
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-DailyPlanViewSet-and-UserVi-7572938932904a5ee71fe8179a4b1bbf0409c98c"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-quote-approval-workflow-and-tar-d84a396b51e18b0a3c35e3a129b1720bc48a58ac"
