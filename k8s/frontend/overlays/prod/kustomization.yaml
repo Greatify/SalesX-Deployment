@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Add-quote-approval-workflow-and-tar-d84a396b51e18b0a3c35e3a129b1720bc48a58ac
+    newTag: frontend-Merge-pull-request-3-from-Greatifyc-5b5574410281442d81683f771f31675925cff206
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-quote-approval-workflow-and-tar-d84a396b51e18b0a3c35e3a129b1720bc48a58ac"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Merge-pull-request-3-from-Greatifyc-5b5574410281442d81683f771f31675925cff206"
