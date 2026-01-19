@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Merge-pull-request-3-from-Greatifyc-5b5574410281442d81683f771f31675925cff206
+    newTag: frontend-Update-LeadModal-component-to-strea-6ef8da7eb7731f9146f60eed66baccd5bd859642
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Merge-pull-request-3-from-Greatifyc-5b5574410281442d81683f771f31675925cff206"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Update-LeadModal-component-to-strea-6ef8da7eb7731f9146f60eed66baccd5bd859642"
