@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Update-LeadModal-component-to-strea-6ef8da7eb7731f9146f60eed66baccd5bd859642
+    newTag: backend-Enhance-lead-management-and-quote-a-59eac4995e0dca1aa8c45c87d745ac181595d346
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-LeadModal-component-to-strea-6ef8da7eb7731f9146f60eed66baccd5bd859642"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-lead-management-and-quote-a-59eac4995e0dca1aa8c45c87d745ac181595d346"
