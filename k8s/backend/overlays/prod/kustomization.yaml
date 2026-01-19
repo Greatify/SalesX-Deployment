@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Merge-pull-request-3-from-Greatifyc-5b5574410281442d81683f771f31675925cff206
+    newTag: backend-Merge-pull-request-4-from-Greatifyp-53ccdfbd81f9752b2b117930858e7547b731519d
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Merge-pull-request-3-from-Greatifyc-5b5574410281442d81683f771f31675925cff206"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Merge-pull-request-4-from-Greatifyp-53ccdfbd81f9752b2b117930858e7547b731519d"
