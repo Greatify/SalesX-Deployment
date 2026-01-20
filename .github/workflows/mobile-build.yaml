@@ -26,10 +26,6 @@ on:
           - debug
         default: 'release'
 
-concurrency:
-  group: mobile-build-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   build-android:
     if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' }}
