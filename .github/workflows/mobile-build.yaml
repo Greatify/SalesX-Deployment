@@ -43,7 +43,7 @@ jobs:
           repository: 'Greatify/SalesX'
           ref: ${{ github.event.inputs.branch }}
           token: ${{ secrets.PAT_TOKEN }}
-          fetch-depth: 2
+          fetch-depth: 0
       
       - name: 🔐 Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -227,7 +227,7 @@ jobs:
           repository: 'Greatify/SalesX'
           ref: ${{ github.event.inputs.branch }}
           token: ${{ secrets.PAT_TOKEN }}
-          fetch-depth: 2
+          fetch-depth: 0
       
       - name: 📱 Setup Node.js with npm cache
         uses: actions/setup-node@v4
