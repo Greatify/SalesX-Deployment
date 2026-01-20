@@ -188,8 +188,12 @@ jobs:
             S3_KEY="mobile/android/debug/SalesX-latest.apk"
           fi
           
-          # Upload to S3 (overwrites previous - S3 versioning keeps history)
-          aws s3 cp "$APK_FILE" "s3://salesx-greatify/$S3_KEY"
+          # Upload to S3 with proper headers for APK download
+          aws s3 cp "$APK_FILE" "s3://salesx-greatify/$S3_KEY" \
+            --content-type "application/vnd.android.package-archive" \
+            --content-disposition "attachment; filename=SalesX-latest.apk" \
+            --metadata-directive REPLACE \
+            --cache-control "no-cache, no-store, must-revalidate"
           
           # Generate CloudFront URL
           S3_CLOUDFRONT_URL="${{ secrets.S3_CLOUDFRONT_URL }}/$S3_KEY"
@@ -403,7 +407,11 @@ jobs:
             S3_KEY="mobile/ios/debug/$ZIP_NAME"
           fi
           
-          aws s3 cp "$ZIP_NAME" "s3://salesx-greatify/$S3_KEY"
+          aws s3 cp "$ZIP_NAME" "s3://salesx-greatify/$S3_KEY" \
+            --content-type "application/zip" \
+            --content-disposition "attachment; filename=$ZIP_NAME" \
+            --metadata-directive REPLACE \
+            --cache-control "no-cache, no-store, must-revalidate"
           
           # Generate CloudFront URL
           S3_CLOUDFRONT_URL="${{ secrets.S3_CLOUDFRONT_URL }}/$S3_KEY"
