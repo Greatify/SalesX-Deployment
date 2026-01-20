@@ -94,21 +94,53 @@ jobs:
             ./gradlew assembleDebug
           fi
       
-      - name: 📤 Upload APK as artifact
-        uses: actions/upload-artifact@v4
+      - name: 🔐 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
-          name: android-apk
-          path: mobile/android/app/build/outputs/apk/**/*.apk
-          retention-days: 90
+          aws-access-key-id: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: 📤 Upload APK to S3
+        run: |
+          # Get app version
+          VERSION=$(node -p "require('./app.json').expo.version")
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          
+          # Find APK file
+          if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
+            APK_FILE=$(find android/app/build/outputs/apk/release -name "*.apk" | head -n 1)
+            S3_KEY="mobile/android/release/SalesX-v${VERSION}-${TIMESTAMP}.apk"
+          else
+            APK_FILE=$(find android/app/build/outputs/apk/debug -name "*.apk" | head -n 1)
+            S3_KEY="mobile/android/debug/SalesX-v${VERSION}-${TIMESTAMP}.apk"
+          fi
+          
+          # Upload to S3
+          aws s3 cp "$APK_FILE" "s3://salesx-greatify/$S3_KEY" --acl public-read
+          
+          # Generate CloudFront URL
+          S3_CLOUDFRONT_URL="${{ secrets.S3_CLOUDFRONT_URL }}/$S3_KEY"
+          
+          echo "APK_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "APK_S3_KEY=$S3_KEY" >> $GITHUB_ENV
+          echo "APK_DOWNLOAD_URL=$S3_CLOUDFRONT_URL" >> $GITHUB_ENV
+        working-directory: mobile
       
       - name: 📋 Build Summary
         run: |
           echo "### 🤖 Android Build Complete! ✅" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ env.APK_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "**Build Type:** ${{ github.event.inputs.build_type }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📥 Download APK from **Artifacts** section below" >> $GITHUB_STEP_SUMMARY
+          echo "### 📥 Download APK" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Direct Download Link:**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ env.APK_DOWNLOAD_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**S3 Location:** \`${{ env.APK_S3_KEY }}\`" >> $GITHUB_STEP_SUMMARY
 
   build-ios:
     if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
@@ -184,21 +216,68 @@ jobs:
             -scheme "$SCHEME" \
             -configuration $CONFIG \
             -sdk iphonesimulator \
-            CODE_SIGNING_ALLOWED=NO
+            -derivedDataPath ./build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
       
-      - name: 📤 Upload iOS app as artifact
-        uses: actions/upload-artifact@v4
+      - name: 🔐 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
         with:
-          name: ios-app
-          path: mobile/ios/build/Build/Products/**/*.app
-          retention-days: 90
+          aws-access-key-id: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: 📤 Upload iOS app to S3
+        run: |
+          # Get app version
+          VERSION=$(node -p "require('./app.json').expo.version")
+          TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+          
+          # Find .app file
+          APP_FILE=$(find ios/build/Build/Products -name "*.app" -type d | head -n 1)
+          
+          if [ -z "$APP_FILE" ]; then
+            echo "Error: No .app file found!"
+            exit 1
+          fi
+          
+          echo "Found app: $APP_FILE"
+          
+          # Zip the .app file
+          cd "$(dirname "$APP_FILE")"
+          ZIP_NAME="SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-${TIMESTAMP}.app.zip"
+          zip -r "$ZIP_NAME" "$(basename "$APP_FILE")"
+          
+          # Upload to S3
+          if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
+            S3_KEY="mobile/ios/release/$ZIP_NAME"
+          else
+            S3_KEY="mobile/ios/debug/$ZIP_NAME"
+          fi
+          
+          aws s3 cp "$ZIP_NAME" "s3://salesx-greatify/$S3_KEY" --acl public-read
+          
+          # Generate CloudFront URL
+          S3_CLOUDFRONT_URL="${{ secrets.S3_CLOUDFRONT_URL }}/$S3_KEY"
+          
+          echo "IPA_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "IPA_S3_KEY=$S3_KEY" >> $GITHUB_ENV
+          echo "IPA_DOWNLOAD_URL=$S3_CLOUDFRONT_URL" >> $GITHUB_ENV
+        working-directory: mobile
       
       - name: 📋 Build Summary
         run: |
           echo "### 🍎 iOS Build Complete! ✅" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ env.IPA_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "**Build Type:** ${{ github.event.inputs.build_type }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📥 Download .app from **Artifacts** section below" >> $GITHUB_STEP_SUMMARY
-          echo "⚠️ Simulator build only (no code signing)" >> $GITHUB_STEP_SUMMARY
+          echo "### 📥 Download iOS App" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Direct Download Link:**" >> $GITHUB_STEP_SUMMARY
+          echo "${{ env.IPA_DOWNLOAD_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**S3 Location:** \`${{ env.IPA_S3_KEY }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Note:** Simulator build only (no code signing)" >> $GITHUB_STEP_SUMMARY
