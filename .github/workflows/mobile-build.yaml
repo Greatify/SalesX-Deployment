@@ -171,8 +171,8 @@ jobs:
       - name: 🏗️ Build iOS app
         working-directory: mobile/ios
         run: |
-          # Build for simulator
-          WORKSPACE=$(ls *.xcworkspace | head -n 1)
+          # Find workspace file (it's a directory)
+          WORKSPACE=$(find . -maxdepth 1 -name "*.xcworkspace" -type d | head -n 1)
           SCHEME=$(basename "$WORKSPACE" .xcworkspace)
           
           if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
@@ -180,6 +180,9 @@ jobs:
           else
             CONFIG="Debug"
           fi
+          
+          echo "Building workspace: $WORKSPACE"
+          echo "Scheme: $SCHEME"
           
           xcodebuild -workspace "$WORKSPACE" \
             -scheme "$SCHEME" \
