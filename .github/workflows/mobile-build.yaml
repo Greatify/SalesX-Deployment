@@ -25,6 +25,11 @@ on:
           - release
           - debug
         default: 'release'
+      force_clean:
+        description: 'Force clean prebuild (slower but ensures fresh native code)'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build-android:
@@ -38,6 +43,7 @@ jobs:
           repository: 'Greatify/SalesX'
           ref: ${{ github.event.inputs.branch }}
           token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 2
       
       - name: 🔐 Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v3
@@ -59,7 +65,7 @@ jobs:
           echo "✅ Secrets fetched and saved to .env"
           echo "📋 Environment variables loaded (content hidden for security)"
       
-      - name: 📱 Setup Node.js
+      - name: 📱 Setup Node.js with npm cache
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -75,41 +81,91 @@ jobs:
       - name: 🤖 Setup Android SDK
         uses: android-actions/setup-android@v3
       
-      - name: 💾 Cache npm dependencies
+      - name: 💾 Cache node_modules
         uses: actions/cache@v4
         with:
           path: mobile/node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('mobile/package-lock.json') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('mobile/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
       
-      - name: 💾 Cache Gradle
+      - name: 💾 Cache Android native folder
         uses: actions/cache@v4
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          path: mobile/android
+          key: ${{ runner.os }}-android-${{ hashFiles('mobile/package.json', 'mobile/app.json', 'mobile/app.config.js') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-android-
+      
+      - name: ⚙️ Setup Gradle with build cache
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/main' }}
       
       - name: 📦 Install dependencies
         working-directory: mobile
         run: |
-          npm ci --legacy-peer-deps
+          if [ ! -d "node_modules" ]; then
+            echo "Installing dependencies (cache miss)..."
+            npm ci --legacy-peer-deps
+          else
+            echo "Using cached node_modules ✅"
+          fi
       
-      - name: 🔧 Generate Android project
+      - name: 🔍 Check if native regen needed
+        id: native-check
         working-directory: mobile
         run: |
-          npx expo prebuild --platform android --clean --non-interactive
+          if [ "${{ github.event.inputs.force_clean }}" == "true" ]; then
+            echo "Force clean requested"
+            echo "needs_clean=true" >> $GITHUB_OUTPUT
+          elif [ ! -d "android" ]; then
+            echo "Android folder doesn't exist, needs generation"
+            echo "needs_clean=true" >> $GITHUB_OUTPUT
+          else
+            # Check if native-affecting files changed
+            if git diff HEAD~1 HEAD --quiet -- package.json app.json app.config.js 2>/dev/null; then
+              echo "No native config changes detected"
+              echo "needs_clean=false" >> $GITHUB_OUTPUT
+            else
+              echo "Native config changes detected"
+              echo "needs_clean=true" >> $GITHUB_OUTPUT
+            fi
+          fi
       
-      - name: 🏗️ Build Android APK
+      - name: 🔧 Generate Android project (conditional clean)
+        working-directory: mobile
+        run: |
+          if [ "${{ steps.native-check.outputs.needs_clean }}" == "true" ]; then
+            echo "Regenerating native code with --clean..."
+            npx expo prebuild --platform android --clean --non-interactive
+          else
+            echo "Using cached native code, running prebuild without --clean..."
+            npx expo prebuild --platform android --non-interactive || {
+              echo "Prebuild failed, falling back to clean..."
+              npx expo prebuild --platform android --clean --non-interactive
+            }
+          fi
+      
+      - name: ⚡ Enable Gradle optimizations
+        working-directory: mobile/android
+        run: |
+          cat >> gradle.properties << EOF
+          org.gradle.caching=true
+          org.gradle.parallel=true
+          org.gradle.configureondemand=true
+          org.gradle.jvmargs=-Xmx4g -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC
+          android.enableJetifier=true
+          android.useAndroidX=true
+          EOF
+      
+      - name: 🏗️ Build Android APK with cache
         working-directory: mobile/android
         run: |
           if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
-            ./gradlew assembleRelease
+            ./gradlew assembleRelease --build-cache --parallel --configuration-cache
           else
-            ./gradlew assembleDebug
+            ./gradlew assembleDebug --build-cache --parallel --configuration-cache
           fi
       
       - name: 🔐 Configure AWS credentials
@@ -171,8 +227,9 @@ jobs:
           repository: 'Greatify/SalesX'
           ref: ${{ github.event.inputs.branch }}
           token: ${{ secrets.PAT_TOKEN }}
+          fetch-depth: 2
       
-      - name: 📱 Setup Node.js
+      - name: 📱 Setup Node.js with npm cache
         uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -190,39 +247,87 @@ jobs:
           ruby-version: '3.2'
           bundler-cache: true
       
-      - name: 💾 Cache npm dependencies
+      - name: 💾 Cache node_modules
         uses: actions/cache@v4
         with:
           path: mobile/node_modules
-          key: ${{ runner.os }}-npm-${{ hashFiles('mobile/package-lock.json') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('mobile/package-lock.json') }}
           restore-keys: |
-            ${{ runner.os }}-npm-
+            ${{ runner.os }}-node-modules-
+      
+      - name: 💾 Cache iOS native folder
+        uses: actions/cache@v4
+        with:
+          path: mobile/ios
+          key: ${{ runner.os }}-ios-${{ hashFiles('mobile/package.json', 'mobile/app.json', 'mobile/app.config.js') }}
+          restore-keys: |
+            ${{ runner.os }}-ios-
       
       - name: 💾 Cache CocoaPods
         uses: actions/cache@v4
         with:
-          path: mobile/ios/Pods
+          path: |
+            mobile/ios/Pods
+            ~/Library/Caches/CocoaPods
+            ~/.cocoapods
           key: ${{ runner.os }}-pods-${{ hashFiles('mobile/ios/Podfile.lock') }}
           restore-keys: |
             ${{ runner.os }}-pods-
       
-      - name: 💾 Cache Xcode DerivedData
-        uses: actions/cache@v4
+      - name: 💾 Restore DerivedData & mtime cache
+        uses: irgaly/xcode-cache@v1
         with:
-          path: ~/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-xcode-${{ hashFiles('mobile/ios/Pods/**', 'mobile/ios/*.xcodeproj/**') }}
+          key: xcode-deriveddata-${{ runner.os }}-${{ hashFiles('mobile/ios/Podfile.lock', 'mobile/package.json') }}
           restore-keys: |
-            ${{ runner.os }}-xcode-
+            xcode-deriveddata-${{ runner.os }}-
+      
+      - name: ⚡ Fix Xcode cache invalidation
+        run: defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
       
       - name: 📦 Install dependencies
         working-directory: mobile
         run: |
-          npm ci --legacy-peer-deps
+          if [ ! -d "node_modules" ]; then
+            echo "Installing dependencies (cache miss)..."
+            npm ci --legacy-peer-deps
+          else
+            echo "Using cached node_modules ✅"
+          fi
       
-      - name: 🔧 Generate iOS project
+      - name: 🔍 Check if native regen needed
+        id: native-check
         working-directory: mobile
         run: |
-          npx expo prebuild --platform ios --clean --non-interactive
+          if [ "${{ github.event.inputs.force_clean }}" == "true" ]; then
+            echo "Force clean requested"
+            echo "needs_clean=true" >> $GITHUB_OUTPUT
+          elif [ ! -d "ios" ]; then
+            echo "iOS folder doesn't exist, needs generation"
+            echo "needs_clean=true" >> $GITHUB_OUTPUT
+          else
+            # Check if native-affecting files changed
+            if git diff HEAD~1 HEAD --quiet -- package.json app.json app.config.js 2>/dev/null; then
+              echo "No native config changes detected"
+              echo "needs_clean=false" >> $GITHUB_OUTPUT
+            else
+              echo "Native config changes detected"
+              echo "needs_clean=true" >> $GITHUB_OUTPUT
+            fi
+          fi
+      
+      - name: 🔧 Generate iOS project (conditional clean)
+        working-directory: mobile
+        run: |
+          if [ "${{ steps.native-check.outputs.needs_clean }}" == "true" ]; then
+            echo "Regenerating native code with --clean..."
+            npx expo prebuild --platform ios --clean --non-interactive
+          else
+            echo "Using cached native code, running prebuild without --clean..."
+            npx expo prebuild --platform ios --non-interactive || {
+              echo "Prebuild failed, falling back to clean..."
+              npx expo prebuild --platform ios --clean --non-interactive
+            }
+          fi
           
           # List generated iOS files for debugging
           echo "Generated iOS files:"
@@ -231,7 +336,13 @@ jobs:
       - name: 📦 Install CocoaPods dependencies
         working-directory: mobile/ios
         run: |
-          pod install
+          if [ ! -d "Pods" ]; then
+            echo "Installing CocoaPods (cache miss)..."
+            pod install
+          else
+            echo "Using cached Pods, updating if needed..."
+            pod install || pod repo update && pod install
+          fi
           
           # List workspace files after pod install
           echo "iOS workspace files:"
