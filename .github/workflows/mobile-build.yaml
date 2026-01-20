@@ -172,22 +172,39 @@ jobs:
           
           # Build for simulator (no code signing needed for CI)
           if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
-            SCHEME="Release"
+            CONFIG="Release"
           else
-            SCHEME="Debug"
+            CONFIG="Debug"
           fi
           
-          xcodebuild -workspace ios/salesxmobile.xcworkspace \
-            -scheme salesxmobile \
-            -configuration $SCHEME \
-            -sdk iphonesimulator \
-            -derivedDataPath ios/build \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO
+          # Use the generated workspace
+          WORKSPACE_PATH="ios/salesxmobile.xcworkspace"
+          
+          # If workspace doesn't exist, use xcodeproj instead
+          if [ ! -d "$WORKSPACE_PATH" ]; then
+            echo "Workspace not found, using xcodeproj..."
+            PROJECT_PATH="ios/salesxmobile.xcodeproj"
+            
+            xcodebuild -project $PROJECT_PATH \
+              -scheme salesxmobile \
+              -configuration $CONFIG \
+              -sdk iphonesimulator \
+              -derivedDataPath ios/build \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO
+          else
+            xcodebuild -workspace $WORKSPACE_PATH \
+              -scheme salesxmobile \
+              -configuration $CONFIG \
+              -sdk iphonesimulator \
+              -derivedDataPath ios/build \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO
+          fi
           
           # Create app bundle for distribution
           mkdir -p artifacts
-          cd ios/build/Build/Products/${SCHEME}-iphonesimulator
+          cd ios/build/Build/Products/${CONFIG}-iphonesimulator
           zip -r "../../../../../artifacts/SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" salesxmobile.app
           
           echo "IPA_FILE=SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" >> $GITHUB_ENV
