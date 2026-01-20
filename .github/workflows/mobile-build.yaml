@@ -135,7 +135,7 @@ jobs:
           fi
           
           # Upload to S3
-          aws s3 cp "$APK_FILE" "s3://salesx-greatify/$S3_KEY" --acl public-read
+          aws s3 cp "$APK_FILE" "s3://salesx-greatify/$S3_KEY"
           
           # Generate CloudFront URL
           S3_CLOUDFRONT_URL="${{ secrets.S3_CLOUDFRONT_URL }}/$S3_KEY"
@@ -297,7 +297,7 @@ jobs:
             S3_KEY="mobile/ios/debug/$ZIP_NAME"
           fi
           
-          aws s3 cp "$ZIP_NAME" "s3://salesx-greatify/$S3_KEY" --acl public-read
+          aws s3 cp "$ZIP_NAME" "s3://salesx-greatify/$S3_KEY"
           
           # Generate CloudFront URL
           S3_CLOUDFRONT_URL="${{ secrets.S3_CLOUDFRONT_URL }}/$S3_KEY"
