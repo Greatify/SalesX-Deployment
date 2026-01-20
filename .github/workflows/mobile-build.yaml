@@ -1,0 +1,213 @@
+name: Build Mobile Apps
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to build'
+        required: true
+        type: choice
+        options:
+          - android
+          - ios
+          - both
+        default: 'both'
+      build_type:
+        description: 'Build type'
+        required: true
+        type: choice
+        options:
+          - release
+          - debug
+        default: 'release'
+
+concurrency:
+  group: mobile-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-android:
+    if: ${{ github.event.inputs.platform == 'android' || github.event.inputs.platform == 'both' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout SalesX source code
+        uses: actions/checkout@v4
+        with:
+          repository: 'Greatify/SalesX'
+          ref: 'main'
+          token: ${{ secrets.PAT_TOKEN }}
+      
+      - name: 📱 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+      
+      - name: ☕ Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      
+      - name: 🤖 Setup Android SDK
+        uses: android-actions/setup-android@v3
+      
+      - name: 📦 Install dependencies
+        working-directory: mobile
+        run: |
+          npm ci --legacy-peer-deps
+      
+      - name: 🔧 Generate Android project
+        working-directory: mobile
+        run: |
+          npx expo prebuild --platform android --clean
+      
+      - name: 🏗️ Build Android APK
+        working-directory: mobile/android
+        run: |
+          if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
+            ./gradlew assembleRelease --no-daemon
+            APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          else
+            ./gradlew assembleDebug --no-daemon
+            APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
+          fi
+          
+          # Get app version from app.json
+          VERSION=$(node -p "require('../app.json').expo.version")
+          
+          # Copy and rename APK
+          mkdir -p ../../artifacts
+          cp $APK_PATH "../../artifacts/SalesX-Android-v${VERSION}-${{ github.event.inputs.build_type }}.apk"
+          
+          echo "APK_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "APK_FILE=SalesX-Android-v${VERSION}-${{ github.event.inputs.build_type }}.apk" >> $GITHUB_ENV
+      
+      - name: 📤 Upload APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: mobile/artifacts/*.apk
+          retention-days: 90
+      
+      - name: 📋 Build Summary
+        run: |
+          echo "### 🤖 Android Build Complete! ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ env.APK_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Build Type:** ${{ github.event.inputs.build_type }}" >> $GITHUB_STEP_SUMMARY
+          echo "**APK File:** ${{ env.APK_FILE }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📥 Download Instructions" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. Scroll to the bottom of this page" >> $GITHUB_STEP_SUMMARY
+          echo "2. Find the **'Artifacts'** section" >> $GITHUB_STEP_SUMMARY
+          echo "3. Click on **'android-apk'** to download" >> $GITHUB_STEP_SUMMARY
+          echo "4. Extract the ZIP file to get your APK" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📱 **Install on Android:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Transfer APK to your Android device" >> $GITHUB_STEP_SUMMARY
+          echo "- Enable 'Install from Unknown Sources' in Settings" >> $GITHUB_STEP_SUMMARY
+          echo "- Tap the APK file to install" >> $GITHUB_STEP_SUMMARY
+
+  build-ios:
+    if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
+    runs-on: macos-latest
+    
+    steps:
+      - name: 📥 Checkout SalesX source code
+        uses: actions/checkout@v4
+        with:
+          repository: 'Greatify/SalesX'
+          ref: 'main'
+          token: ${{ secrets.PAT_TOKEN }}
+      
+      - name: 📱 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+      
+      - name: 🍎 Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+      
+      - name: 💎 Setup Ruby (for CocoaPods)
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+      
+      - name: 📦 Install dependencies
+        working-directory: mobile
+        run: |
+          npm ci --legacy-peer-deps
+      
+      - name: 🔧 Generate iOS project
+        working-directory: mobile
+        run: |
+          npx expo prebuild --platform ios --clean
+      
+      - name: 📦 Install CocoaPods dependencies
+        working-directory: mobile/ios
+        run: |
+          pod install
+      
+      - name: 🏗️ Build iOS app
+        working-directory: mobile
+        run: |
+          # Get app version
+          VERSION=$(node -p "require('./app.json').expo.version")
+          echo "IPA_VERSION=$VERSION" >> $GITHUB_ENV
+          
+          # Build for simulator (no code signing needed for CI)
+          if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
+            SCHEME="Release"
+          else
+            SCHEME="Debug"
+          fi
+          
+          xcodebuild -workspace ios/salesxmobile.xcworkspace \
+            -scheme salesxmobile \
+            -configuration $SCHEME \
+            -sdk iphonesimulator \
+            -derivedDataPath ios/build \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
+          
+          # Create app bundle for distribution
+          mkdir -p artifacts
+          cd ios/build/Build/Products/${SCHEME}-iphonesimulator
+          zip -r "../../../../../artifacts/SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" salesxmobile.app
+          
+          echo "IPA_FILE=SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" >> $GITHUB_ENV
+      
+      - name: 📤 Upload iOS app as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-app
+          path: mobile/artifacts/*.zip
+          retention-days: 90
+      
+      - name: 📋 Build Summary
+        run: |
+          echo "### 🍎 iOS Build Complete! ✅" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Version:** ${{ env.IPA_VERSION }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Build Type:** ${{ github.event.inputs.build_type }}" >> $GITHUB_STEP_SUMMARY
+          echo "**File:** ${{ env.IPA_FILE }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Note:** This is a simulator build (no code signing)" >> $GITHUB_STEP_SUMMARY
+          echo "For device builds, use EAS Build or local Xcode with signing" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📥 Download Instructions" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "1. Scroll to the bottom of this page" >> $GITHUB_STEP_SUMMARY
+          echo "2. Find the **'Artifacts'** section" >> $GITHUB_STEP_SUMMARY
+          echo "3. Click on **'ios-app'** to download" >> $GITHUB_STEP_SUMMARY
+          echo "4. Extract the ZIP file" >> $GITHUB_STEP_SUMMARY
+          echo "5. Drag .app to iOS Simulator to install" >> $GITHUB_STEP_SUMMARY

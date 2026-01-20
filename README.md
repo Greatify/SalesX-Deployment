@@ -46,6 +46,10 @@ This repository contains the Kubernetes deployment configurations for the SalesX
 ### Frontend Service
 - **React/Vite App**: Single-page application served via Nginx with autoscaling (2-10 replicas)
 
+### Mobile Apps
+- **React Native (Expo)**: iOS and Android applications
+- **Build via GitHub Actions**: Automated APK/IPA builds with public download links
+
 ## 🗂️ Repository Structure
 
 ```
@@ -97,6 +101,34 @@ SalesX-Deployment/
 │               └── kustomization.yaml
 └── README.md                         # This file
 ```
+
+## 📱 Mobile App Builds
+
+### Build Android & iOS Apps (FREE)
+
+GitHub Actions workflow for building mobile apps with one click!
+
+**Quick Start:**
+1. Go to **Actions** → "Build Mobile Apps"
+2. Click **"Run workflow"**
+3. Select:
+   - **Platform:** android | ios | both
+   - **Build Type:** release | debug  
+   - **Create Release:** ✅ (for public download links)
+4. Wait ~20-25 minutes
+5. Download from **Releases** tab!
+
+**Features:**
+- ✅ 100% FREE (public repo, unlimited builds)
+- ✅ Android APK builds
+- ✅ iOS Simulator builds
+- ✅ Creates GitHub Releases with public download links
+- ✅ No EAS subscription needed
+- ✅ Share with anyone (no GitHub account required)
+
+**📖 Full Guide:** [MOBILE_BUILD_GUIDE.md](./MOBILE_BUILD_GUIDE.md)
+
+---
 
 ## 🚀 Deployment Process
 
