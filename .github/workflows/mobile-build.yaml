@@ -153,7 +153,6 @@ jobs:
           cat >> gradle.properties << EOF
           org.gradle.caching=true
           org.gradle.parallel=true
-          org.gradle.configureondemand=true
           org.gradle.jvmargs=-Xmx4g -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC
           android.enableJetifier=true
           android.useAndroidX=true
@@ -163,9 +162,9 @@ jobs:
         working-directory: mobile/android
         run: |
           if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
-            ./gradlew assembleRelease --build-cache --parallel --configuration-cache
+            ./gradlew assembleRelease --build-cache --parallel
           else
-            ./gradlew assembleDebug --build-cache --parallel --configuration-cache
+            ./gradlew assembleDebug --build-cache --parallel
           fi
       
       - name: 🔐 Configure AWS credentials
@@ -274,15 +273,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pods-
       
-      - name: 💾 Restore DerivedData & mtime cache
-        uses: irgaly/xcode-cache@v1
+      - name: 💾 Cache iOS build folder
+        uses: actions/cache@v4
         with:
-          key: xcode-deriveddata-${{ runner.os }}-${{ hashFiles('mobile/ios/Podfile.lock', 'mobile/package.json') }}
+          path: mobile/ios/build
+          key: ${{ runner.os }}-ios-build-${{ hashFiles('mobile/ios/Podfile.lock', 'mobile/package.json', 'mobile/ios/**/*.swift', 'mobile/ios/**/*.m', 'mobile/ios/**/*.h') }}
           restore-keys: |
-            xcode-deriveddata-${{ runner.os }}-
-      
-      - name: ⚡ Fix Xcode cache invalidation
-        run: defaults write com.apple.dt.XCBuild IgnoreFileSystemDeviceInodeChanges -bool YES
+            ${{ runner.os }}-ios-build-
       
       - name: 📦 Install dependencies
         working-directory: mobile
