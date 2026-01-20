@@ -157,17 +157,26 @@ jobs:
         working-directory: mobile
         run: |
           npx expo prebuild --platform ios --clean
+          
+          # List generated iOS files for debugging
+          echo "Generated iOS files:"
+          ls -la ios/
       
       - name: 📦 Install CocoaPods dependencies
         working-directory: mobile/ios
         run: |
           pod install
+          
+          # List workspace files after pod install
+          echo "iOS workspace files:"
+          ls -la
       
       - name: 🏗️ Build iOS app
         working-directory: mobile
         run: |
-          # Get app version
+          # Get app version and name from app.json
           VERSION=$(node -p "require('./app.json').expo.version")
+          APP_NAME=$(node -p "require('./app.json').expo.name")
           echo "IPA_VERSION=$VERSION" >> $GITHUB_ENV
           
           # Build for simulator (no code signing needed for CI)
@@ -177,35 +186,55 @@ jobs:
             CONFIG="Debug"
           fi
           
-          # Use the generated workspace
-          WORKSPACE_PATH="ios/salesxmobile.xcworkspace"
+          # Find the actual workspace or project file
+          echo "Looking for iOS project files..."
+          ls -la ios/
           
-          # If workspace doesn't exist, use xcodeproj instead
-          if [ ! -d "$WORKSPACE_PATH" ]; then
-            echo "Workspace not found, using xcodeproj..."
-            PROJECT_PATH="ios/salesxmobile.xcodeproj"
+          # Try to find workspace first
+          WORKSPACE=$(find ios -name "*.xcworkspace" -type d | head -n 1)
+          if [ -n "$WORKSPACE" ]; then
+            echo "Found workspace: $WORKSPACE"
+            SCHEME=$(basename "$WORKSPACE" .xcworkspace)
             
-            xcodebuild -project $PROJECT_PATH \
-              -scheme salesxmobile \
+            xcodebuild -workspace "$WORKSPACE" \
+              -scheme "$SCHEME" \
               -configuration $CONFIG \
               -sdk iphonesimulator \
               -derivedDataPath ios/build \
               CODE_SIGNING_ALLOWED=NO \
               CODE_SIGNING_REQUIRED=NO
           else
-            xcodebuild -workspace $WORKSPACE_PATH \
-              -scheme salesxmobile \
-              -configuration $CONFIG \
-              -sdk iphonesimulator \
-              -derivedDataPath ios/build \
-              CODE_SIGNING_ALLOWED=NO \
-              CODE_SIGNING_REQUIRED=NO
+            # Try to find xcodeproj
+            PROJECT=$(find ios -name "*.xcodeproj" -type d | head -n 1)
+            if [ -n "$PROJECT" ]; then
+              echo "Found project: $PROJECT"
+              SCHEME=$(basename "$PROJECT" .xcodeproj)
+              
+              xcodebuild -project "$PROJECT" \
+                -scheme "$SCHEME" \
+                -configuration $CONFIG \
+                -sdk iphonesimulator \
+                -derivedDataPath ios/build \
+                CODE_SIGNING_ALLOWED=NO \
+                CODE_SIGNING_REQUIRED=NO
+            else
+              echo "Error: No iOS project found!"
+              exit 1
+            fi
           fi
           
-          # Create app bundle for distribution
+          # Find and zip the generated app
           mkdir -p artifacts
-          cd ios/build/Build/Products/${CONFIG}-iphonesimulator
-          zip -r "../../../../../artifacts/SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" salesxmobile.app
+          APP_FILE=$(find ios/build/Build/Products -name "*.app" -type d | head -n 1)
+          
+          if [ -n "$APP_FILE" ]; then
+            echo "Found app: $APP_FILE"
+            cd "$(dirname "$APP_FILE")"
+            zip -r "../../../../../artifacts/SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" "$(basename "$APP_FILE")"
+          else
+            echo "Error: Built app not found!"
+            exit 1
+          fi
           
           echo "IPA_FILE=SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" >> $GITHUB_ENV
       
