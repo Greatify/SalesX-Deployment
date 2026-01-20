@@ -210,7 +210,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-xcode-${{ hashFiles('mobile/ios/**/*.swift', 'mobile/ios/**/*.m', 'mobile/ios/**/*.h') }}
+          key: ${{ runner.os }}-xcode-${{ hashFiles('mobile/ios/Pods/**', 'mobile/ios/*.xcodeproj/**') }}
           restore-keys: |
             ${{ runner.os }}-xcode-
       
@@ -285,7 +285,7 @@ jobs:
           
           # Zip the .app file (always "latest" name - S3 versioning handles history)
           cd "$(dirname "$APP_FILE")"
-          ZIP_NAME="SalesX-iOS-latest.app.zip"
+          ZIP_NAME="SalesX-latest.app.zip"
           zip -r "$ZIP_NAME" "$(basename "$APP_FILE")"
           
           # Upload to S3 (overwrites previous - S3 versioning keeps history)
