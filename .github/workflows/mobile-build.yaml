@@ -43,6 +43,26 @@ jobs:
           ref: ${{ github.event.inputs.branch }}
           token: ${{ secrets.PAT_TOKEN }}
       
+      - name: 🔐 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      
+      - name: 🔑 Fetch secrets from AWS Secrets Manager
+        id: fetch-secrets
+        working-directory: mobile
+        run: |
+          echo "Fetching mobile app secrets from AWS Secrets Manager..."
+          aws secretsmanager get-secret-value \
+            --secret-id salesx-mobile-prod \
+            --query SecretString \
+            --output text > .env
+          
+          echo "✅ Secrets fetched and saved to .env"
+          echo "📋 Environment variables loaded (content hidden for security)"
+      
       - name: 📱 Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -67,34 +87,22 @@ jobs:
       - name: 🔧 Generate Android project
         working-directory: mobile
         run: |
-          npx expo prebuild --platform android --clean
+          npx expo prebuild --platform android --clean --non-interactive
       
       - name: 🏗️ Build Android APK
         working-directory: mobile/android
         run: |
           if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
-            ./gradlew assembleRelease --no-daemon
-            APK_PATH="app/build/outputs/apk/release/app-release.apk"
+            ./gradlew assembleRelease
           else
-            ./gradlew assembleDebug --no-daemon
-            APK_PATH="app/build/outputs/apk/debug/app-debug.apk"
+            ./gradlew assembleDebug
           fi
-          
-          # Get app version from app.json
-          VERSION=$(node -p "require('../app.json').expo.version")
-          
-          # Copy and rename APK
-          mkdir -p ../../artifacts
-          cp $APK_PATH "../../artifacts/SalesX-Android-v${VERSION}-${{ github.event.inputs.build_type }}.apk"
-          
-          echo "APK_VERSION=$VERSION" >> $GITHUB_ENV
-          echo "APK_FILE=SalesX-Android-v${VERSION}-${{ github.event.inputs.build_type }}.apk" >> $GITHUB_ENV
       
       - name: 📤 Upload APK as artifact
         uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: mobile/artifacts/*.apk
+          path: mobile/android/app/build/outputs/apk/**/*.apk
           retention-days: 90
       
       - name: 📋 Build Summary
@@ -102,25 +110,14 @@ jobs:
           echo "### 🤖 Android Build Complete! ✅" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Version:** ${{ env.APK_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "**Build Type:** ${{ github.event.inputs.build_type }}" >> $GITHUB_STEP_SUMMARY
-          echo "**APK File:** ${{ env.APK_FILE }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📥 Download Instructions" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "1. Scroll to the bottom of this page" >> $GITHUB_STEP_SUMMARY
-          echo "2. Find the **'Artifacts'** section" >> $GITHUB_STEP_SUMMARY
-          echo "3. Click on **'android-apk'** to download" >> $GITHUB_STEP_SUMMARY
-          echo "4. Extract the ZIP file to get your APK" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "📱 **Install on Android:**" >> $GITHUB_STEP_SUMMARY
-          echo "- Transfer APK to your Android device" >> $GITHUB_STEP_SUMMARY
-          echo "- Enable 'Install from Unknown Sources' in Settings" >> $GITHUB_STEP_SUMMARY
-          echo "- Tap the APK file to install" >> $GITHUB_STEP_SUMMARY
+          echo "📥 Download APK from **Artifacts** section below" >> $GITHUB_STEP_SUMMARY
 
   build-ios:
     if: ${{ github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'both' }}
     runs-on: macos-latest
+    timeout-minutes: 60
     
     steps:
       - name: 📥 Checkout SalesX source code
@@ -156,7 +153,7 @@ jobs:
       - name: 🔧 Generate iOS project
         working-directory: mobile
         run: |
-          npx expo prebuild --platform ios --clean
+          npx expo prebuild --platform ios --clean --non-interactive
           
           # List generated iOS files for debugging
           echo "Generated iOS files:"
@@ -172,77 +169,29 @@ jobs:
           ls -la
       
       - name: 🏗️ Build iOS app
-        working-directory: mobile
+        working-directory: mobile/ios
         run: |
-          # Get app version and name from app.json
-          VERSION=$(node -p "require('./app.json').expo.version")
-          APP_NAME=$(node -p "require('./app.json').expo.name")
-          echo "IPA_VERSION=$VERSION" >> $GITHUB_ENV
+          # Build for simulator
+          WORKSPACE=$(ls *.xcworkspace | head -n 1)
+          SCHEME=$(basename "$WORKSPACE" .xcworkspace)
           
-          # Build for simulator (no code signing needed for CI)
           if [ "${{ github.event.inputs.build_type }}" == "release" ]; then
             CONFIG="Release"
           else
             CONFIG="Debug"
           fi
           
-          # Find the actual workspace or project file
-          echo "Looking for iOS project files..."
-          ls -la ios/
-          
-          # Try to find workspace first
-          WORKSPACE=$(find ios -name "*.xcworkspace" -type d | head -n 1)
-          if [ -n "$WORKSPACE" ]; then
-            echo "Found workspace: $WORKSPACE"
-            SCHEME=$(basename "$WORKSPACE" .xcworkspace)
-            
-            xcodebuild -workspace "$WORKSPACE" \
-              -scheme "$SCHEME" \
-              -configuration $CONFIG \
-              -sdk iphonesimulator \
-              -derivedDataPath ios/build \
-              CODE_SIGNING_ALLOWED=NO \
-              CODE_SIGNING_REQUIRED=NO
-          else
-            # Try to find xcodeproj
-            PROJECT=$(find ios -name "*.xcodeproj" -type d | head -n 1)
-            if [ -n "$PROJECT" ]; then
-              echo "Found project: $PROJECT"
-              SCHEME=$(basename "$PROJECT" .xcodeproj)
-              
-              xcodebuild -project "$PROJECT" \
-                -scheme "$SCHEME" \
-                -configuration $CONFIG \
-                -sdk iphonesimulator \
-                -derivedDataPath ios/build \
-                CODE_SIGNING_ALLOWED=NO \
-                CODE_SIGNING_REQUIRED=NO
-            else
-              echo "Error: No iOS project found!"
-              exit 1
-            fi
-          fi
-          
-          # Find and zip the generated app
-          mkdir -p artifacts
-          APP_FILE=$(find ios/build/Build/Products -name "*.app" -type d | head -n 1)
-          
-          if [ -n "$APP_FILE" ]; then
-            echo "Found app: $APP_FILE"
-            cd "$(dirname "$APP_FILE")"
-            zip -r "../../../../../artifacts/SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" "$(basename "$APP_FILE")"
-          else
-            echo "Error: Built app not found!"
-            exit 1
-          fi
-          
-          echo "IPA_FILE=SalesX-iOS-v${VERSION}-${{ github.event.inputs.build_type }}-simulator.app.zip" >> $GITHUB_ENV
+          xcodebuild -workspace "$WORKSPACE" \
+            -scheme "$SCHEME" \
+            -configuration $CONFIG \
+            -sdk iphonesimulator \
+            CODE_SIGNING_ALLOWED=NO
       
       - name: 📤 Upload iOS app as artifact
         uses: actions/upload-artifact@v4
         with:
           name: ios-app
-          path: mobile/artifacts/*.zip
+          path: mobile/ios/build/Build/Products/**/*.app
           retention-days: 90
       
       - name: 📋 Build Summary
@@ -250,17 +199,7 @@ jobs:
           echo "### 🍎 iOS Build Complete! ✅" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Version:** ${{ env.IPA_VERSION }}" >> $GITHUB_STEP_SUMMARY
           echo "**Build Type:** ${{ github.event.inputs.build_type }}" >> $GITHUB_STEP_SUMMARY
-          echo "**File:** ${{ env.IPA_FILE }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "⚠️ **Note:** This is a simulator build (no code signing)" >> $GITHUB_STEP_SUMMARY
-          echo "For device builds, use EAS Build or local Xcode with signing" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📥 Download Instructions" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "1. Scroll to the bottom of this page" >> $GITHUB_STEP_SUMMARY
-          echo "2. Find the **'Artifacts'** section" >> $GITHUB_STEP_SUMMARY
-          echo "3. Click on **'ios-app'** to download" >> $GITHUB_STEP_SUMMARY
-          echo "4. Extract the ZIP file" >> $GITHUB_STEP_SUMMARY
-          echo "5. Drag .app to iOS Simulator to install" >> $GITHUB_STEP_SUMMARY
+          echo "📥 Download .app from **Artifacts** section below" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ Simulator build only (no code signing)" >> $GITHUB_STEP_SUMMARY
