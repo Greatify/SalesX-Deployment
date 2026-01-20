@@ -17,14 +17,6 @@ on:
           - ios
           - all
         default: 'all'
-      profile:
-        description: 'Build profile'
-        required: true
-        type: choice
-        options:
-          - preview
-          - production
-        default: 'preview'
 
 jobs:
   build:
@@ -60,7 +52,7 @@ jobs:
         run: |
           eas build \
             --platform ${{ github.event.inputs.platform }} \
-            --profile ${{ github.event.inputs.profile }} \
+            --profile production \
             --non-interactive \
             --no-wait
         env:
@@ -72,7 +64,6 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
           echo "**Platform:** ${{ github.event.inputs.platform }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Profile:** ${{ github.event.inputs.profile }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### 📱 Build Progress" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
