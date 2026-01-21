@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Enhance-mobile-app-layout-and-updat-2e0af214aadfb19366fd2fa8c859c18699b0ae93
+    newTag: backend-Merge-pull-request-7-from-Greatifyc-40d4ff3179dd12c589303786d60abbab293bc615
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-mobile-app-layout-and-updat-2e0af214aadfb19366fd2fa8c859c18699b0ae93"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Merge-pull-request-7-from-Greatifyc-40d4ff3179dd12c589303786d60abbab293bc615"
