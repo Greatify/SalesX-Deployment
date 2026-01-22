@@ -20,8 +20,8 @@ spec:
           value: "klockwork.ai,*.klockwork.ai,localhost,127.0.0.1"
         resources:
           requests:
-            memory: "768Mi"
-            cpu: "1000m"
+            memory: "1Gi"
+            cpu: "1"
           limits:
-            memory: "1536Mi"
-            cpu: "1500m"
+            memory: "2Gi"
+            cpu: "2"
