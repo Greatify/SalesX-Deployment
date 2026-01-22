@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Fix-app_launcher-to-stream-all-Ngin-24235d87c1977ec3d7f5cb8b13bf51d2fe47f9d6
+    newTag: backend-Update-logging-configuration-to-sup-e433bfa5c938caa8ef0c70e7c5da57b4ca0f6430
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Fix-app_launcher-to-stream-all-Ngin-24235d87c1977ec3d7f5cb8b13bf51d2fe47f9d6"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-logging-configuration-to-sup-e433bfa5c938caa8ef0c70e7c5da57b4ca0f6430"
