@@ -3,6 +3,15 @@ name: Build Mobile Apps with EAS
 on:
   workflow_dispatch:
     inputs:
+      environment:
+        description: 'Environment to build for'
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+          - production
+        default: 'development'
       branch:
         description: 'Branch to build from'
         required: true
@@ -96,6 +105,9 @@ jobs:
         run: |
           echo "### ✅ Android Build Complete!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Download APK:**" >> $GITHUB_STEP_SUMMARY
           echo "https://secure.klockwork.ai/mobile/android/release/SalesX-latest.apk" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
@@ -184,6 +196,9 @@ jobs:
       - name: 📋 iOS Build Summary
         run: |
           echo "### ✅ iOS Build Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Download IPA:**" >> $GITHUB_STEP_SUMMARY
           echo "https://secure.klockwork.ai/mobile/ios/release/SalesX-latest.app.zip" >> $GITHUB_STEP_SUMMARY
