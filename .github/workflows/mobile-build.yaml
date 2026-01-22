@@ -19,8 +19,9 @@ on:
         default: 'all'
 
 jobs:
-  build:
-    name: EAS Build
+  build-android:
+    name: Build Android
+    if: github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all'
     runs-on: ubuntu-latest
     
     steps:
@@ -47,21 +48,18 @@ jobs:
           npm install -g eas-cli
           eas --version
       
-      - name: 🚀 Build with EAS
+      - name: 🚀 Build Android with EAS
         working-directory: mobile
         run: |
           eas build \
-            --platform ${{ github.event.inputs.platform }} \
+            --platform android \
             --profile production \
             --non-interactive \
             --wait
         env:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-          EXPO_APPLE_ID: ${{ secrets.EXPO_APPLE_ID }}
-          EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
       
       - name: 📥 Download Android APK from EAS
-        if: github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all'
         working-directory: mobile
         run: |
           # Get the latest build URL
@@ -74,7 +72,6 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       
       - name: 📤 Upload Android APK to S3
-        if: github.event.inputs.platform == 'android' || github.event.inputs.platform == 'all'
         working-directory: mobile
         run: |
           S3_KEY="mobile/android/release/SalesX-latest.apk"
@@ -89,13 +86,68 @@ jobs:
           # Generate CloudFront URL
           S3_CLOUDFRONT_URL="${{ secrets.S3_CLOUDFRONT_URL }}/$S3_KEY"
           echo "✅ Android APK uploaded to: $S3_CLOUDFRONT_URL"
+          echo "ANDROID_URL=$S3_CLOUDFRONT_URL" >> $GITHUB_ENV
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.S3_AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       
+      - name: 📋 Android Build Summary
+        run: |
+          echo "### ✅ Android Build Complete!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Download APK:**" >> $GITHUB_STEP_SUMMARY
+          echo "https://secure.klockwork.ai/mobile/android/release/SalesX-latest.apk" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Installation:**" >> $GITHUB_STEP_SUMMARY
+          echo "1. Open the APK link on your Android device" >> $GITHUB_STEP_SUMMARY
+          echo "2. Allow installation from unknown sources" >> $GITHUB_STEP_SUMMARY
+          echo "3. Install the app" >> $GITHUB_STEP_SUMMARY
+  
+  build-ios:
+    name: Build iOS
+    if: github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    
+    steps:
+      - name: 📥 Checkout SalesX source code
+        uses: actions/checkout@v4
+        with:
+          repository: 'Greatify/SalesX'
+          ref: ${{ github.event.inputs.branch }}
+          token: ${{ secrets.PAT_TOKEN }}
+      
+      - name: 📱 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+      
+      - name: 📦 Install dependencies
+        working-directory: mobile
+        run: npm ci --legacy-peer-deps
+      
+      - name: 🔧 Setup Expo and EAS
+        run: |
+          npm install -g eas-cli
+          eas --version
+      
+      - name: 🚀 Build iOS with EAS
+        working-directory: mobile
+        run: |
+          eas build \
+            --platform ios \
+            --profile production \
+            --non-interactive \
+            --wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+          EXPO_APPLE_ID: ${{ secrets.EXPO_APPLE_ID }}
+          EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
+      
       - name: 📥 Download iOS IPA from EAS
-        if: github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all'
         working-directory: mobile
         run: |
           # Get the latest build URL
@@ -109,7 +161,6 @@ jobs:
           EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
       
       - name: 📤 Upload iOS ZIP to S3
-        if: github.event.inputs.platform == 'ios' || github.event.inputs.platform == 'all'
         working-directory: mobile
         run: |
           S3_KEY="mobile/ios/release/SalesX-latest.app.zip"
@@ -130,35 +181,13 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       
-      - name: 📋 Build Summary
+      - name: 📋 iOS Build Summary
         run: |
-          echo "### 🚀 Mobile Build Complete! ✅" >> $GITHUB_STEP_SUMMARY
+          echo "### ✅ iOS Build Complete!" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Branch:** ${{ github.event.inputs.branch }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Platform:** ${{ github.event.inputs.platform }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Download IPA:**" >> $GITHUB_STEP_SUMMARY
+          echo "https://secure.klockwork.ai/mobile/ios/release/SalesX-latest.app.zip" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 📥 Download Links" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          if [[ "${{ github.event.inputs.platform }}" == "android" || "${{ github.event.inputs.platform }}" == "all" ]]; then
-            echo "**Android APK:**" >> $GITHUB_STEP_SUMMARY
-            echo "https://secure.klockwork.ai/mobile/android/release/SalesX-latest.apk" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-          fi
-          if [[ "${{ github.event.inputs.platform }}" == "ios" || "${{ github.event.inputs.platform }}" == "all" ]]; then
-            echo "**iOS ZIP:**" >> $GITHUB_STEP_SUMMARY
-            echo "https://secure.klockwork.ai/mobile/ios/release/SalesX-latest.app.zip" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-          fi
-          echo "### 📱 Installation Instructions" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Android:**" >> $GITHUB_STEP_SUMMARY
-          echo "1. Open the APK link on your Android device" >> $GITHUB_STEP_SUMMARY
-          echo "2. Allow installation from unknown sources" >> $GITHUB_STEP_SUMMARY
-          echo "3. Install the app" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**iOS:**" >> $GITHUB_STEP_SUMMARY
+          echo "**Installation:**" >> $GITHUB_STEP_SUMMARY
           echo "1. Requires Apple Developer account" >> $GITHUB_STEP_SUMMARY
           echo "2. Install via TestFlight or OTA distribution" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### 🔗 EAS Build Dashboard" >> $GITHUB_STEP_SUMMARY
-          echo "https://expo.dev/accounts/greatifydev/projects/salesx/builds" >> $GITHUB_STEP_SUMMARY
