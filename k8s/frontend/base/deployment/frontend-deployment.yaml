@@ -3,9 +3,7 @@ kind: Deployment
 metadata:
   name: salesx-frontend
   labels:
-    app: salesx-frontend
-    app.kubernetes.io/name: salesx
-    app.kubernetes.io/part-of: salesx-platform
+    app: salesx
     component: frontend
     tier: web
 spec:
@@ -17,17 +15,13 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: salesx-frontend
-      app.kubernetes.io/name: salesx-frontend
-      app.kubernetes.io/part-of: salesx-platform
+      app: salesx
       component: frontend
       tier: web
   template:
     metadata:
       labels:
-        app: salesx-frontend
-        app.kubernetes.io/name: salesx-frontend
-        app.kubernetes.io/part-of: salesx-platform
+        app: salesx
         component: frontend
         tier: web
     spec:

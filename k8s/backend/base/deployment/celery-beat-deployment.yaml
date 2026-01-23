@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: salesx-celery-beat
   labels:
-    app: salesx-celery-beat
+    app: salesx
     app.kubernetes.io/name: salesx
     app.kubernetes.io/part-of: salesx-platform
     component: celery-beat
@@ -14,16 +14,16 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: salesx-celery-beat
-      app.kubernetes.io/name: salesx-celery-beat
+      app: salesx
+      app.kubernetes.io/name: salesx
       app.kubernetes.io/part-of: salesx-platform
       component: celery-beat
       tier: scheduler
   template:
     metadata:
       labels:
-        app: salesx-celery-beat
-        app.kubernetes.io/name: salesx-celery-beat
+        app: salesx
+        app.kubernetes.io/name: salesx
         app.kubernetes.io/part-of: salesx-platform
         component: celery-beat
         tier: scheduler
