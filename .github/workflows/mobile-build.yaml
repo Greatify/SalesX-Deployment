@@ -62,7 +62,7 @@ jobs:
         run: |
           eas build \
             --platform android \
-            --profile production \
+            --profile ${{ github.event.inputs.environment }} \
             --non-interactive \
             --wait
         env:
@@ -151,7 +151,7 @@ jobs:
         run: |
           eas build \
             --platform ios \
-            --profile production \
+            --profile ${{ github.event.inputs.environment }} \
             --non-interactive \
             --wait
         env:
