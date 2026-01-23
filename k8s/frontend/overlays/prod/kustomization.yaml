@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-SLA-99-Enhance-user-management-feat-ac805221bc01f4b1fbbee78f7724a4668ba9cfe5
+    newTag: frontend-SLA-98-48fee1d8b4bb14d31d1af5126cad3601e7ae9652
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-SLA-99-Enhance-user-management-feat-ac805221bc01f4b1fbbee78f7724a4668ba9cfe5"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-SLA-98-48fee1d8b4bb14d31d1af5126cad3601e7ae9652"
