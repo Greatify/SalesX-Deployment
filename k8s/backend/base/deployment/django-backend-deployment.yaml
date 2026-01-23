@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: salesx-backend
   labels:
-    app: salesx
+    app: salesx-backend
     app.kubernetes.io/name: salesx
     app.kubernetes.io/part-of: salesx-platform
     component: backend
@@ -17,16 +17,16 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: salesx
-      app.kubernetes.io/name: salesx
+      app: salesx-backend
+      app.kubernetes.io/name: salesx-backend
       app.kubernetes.io/part-of: salesx-platform
       component: backend
       tier: api
   template:
     metadata:
       labels:
-        app: salesx
-        app.kubernetes.io/name: salesx
+        app: salesx-backend
+        app.kubernetes.io/name: salesx-backend
         app.kubernetes.io/part-of: salesx-platform
         component: backend
         tier: api

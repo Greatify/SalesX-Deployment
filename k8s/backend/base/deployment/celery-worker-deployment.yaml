@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: salesx-celery-worker
   labels:
-    app: salesx
+    app: salesx-celery-worker
     app.kubernetes.io/name: salesx
     app.kubernetes.io/part-of: salesx-platform
     component: celery-worker
@@ -17,16 +17,16 @@ spec:
       maxUnavailable: 0
   selector:
     matchLabels:
-      app: salesx
-      app.kubernetes.io/name: salesx
+      app: salesx-celery-worker
+      app.kubernetes.io/name: salesx-celery-worker
       app.kubernetes.io/part-of: salesx-platform
       component: celery-worker
       tier: worker
   template:
     metadata:
       labels:
-        app: salesx
-        app.kubernetes.io/name: salesx
+        app: salesx-celery-worker
+        app.kubernetes.io/name: salesx-celery-worker
         app.kubernetes.io/part-of: salesx-platform
         component: celery-worker
         tier: worker
