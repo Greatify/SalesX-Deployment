@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Merge-pull-request-13-from-Greatify-126cd7ffddfb3fd146b6d8e536b1d3d0efc218d4
+    newTag: backend-SLA-99-Enhance-user-management-feat-ac805221bc01f4b1fbbee78f7724a4668ba9cfe5
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Merge-pull-request-13-from-Greatify-126cd7ffddfb3fd146b6d8e536b1d3d0efc218d4"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-SLA-99-Enhance-user-management-feat-ac805221bc01f4b1fbbee78f7724a4668ba9cfe5"
