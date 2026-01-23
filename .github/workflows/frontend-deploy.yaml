@@ -84,14 +84,15 @@ jobs:
         id: generate-tag
         run: |
           COMMIT_ID="${{ steps.commit_info.outputs.sha }}"
-          COMMIT_MSG="${{ steps.commit_info.outputs.message }}"
+          # Use printf to safely handle the commit message and get only first line
+          COMMIT_MSG=$(printf '%s' "${{ steps.commit_info.outputs.message }}" | head -n 1 || echo "no-message")
           
           # Remove newlines, tabs, and limit length
-          CLEAN_MSG=$(echo "$COMMIT_MSG" | tr -d '\n\r\t' | head -c 60 | tr -s ' ' | xargs || echo "no-message")
+          CLEAN_MSG=$(printf '%s' "$COMMIT_MSG" | tr -d '\n\r\t' | head -c 60 | tr -s ' ' | xargs || echo "no-message")
           # Sanitize to safe characters only
-          SAFE_MSG=$(echo "$CLEAN_MSG" | sed -e 's/[^a-zA-Z0-9 _-]//g' -e 's/[[:space:]]/-/g' -e 's/--*/-/g' -e 's/^-\+\|-\+$//g' | cut -c1-35 | sed 's/-$//' || echo "fallback")
+          SAFE_MSG=$(printf '%s' "$CLEAN_MSG" | sed -e 's/[^a-zA-Z0-9 _-]//g' -e 's/[[:space:]]/-/g' -e 's/--*/-/g' -e 's/^-\+\|-\+$//g' | cut -c1-35 | sed 's/-$//' || echo "fallback")
           # Ensure we have a valid tag
-          FINAL_MSG=$(echo "$SAFE_MSG" | grep -E '^[a-zA-Z0-9][a-zA-Z0-9_-]*$' || echo "commit-$(date +%s)")
+          FINAL_MSG=$(printf '%s' "$SAFE_MSG" | grep -E '^[a-zA-Z0-9][a-zA-Z0-9_-]*$' || echo "commit-$(date +%s)")
           IMAGE_TAG="frontend-${FINAL_MSG}-${COMMIT_ID}"
           
           echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_OUTPUT
