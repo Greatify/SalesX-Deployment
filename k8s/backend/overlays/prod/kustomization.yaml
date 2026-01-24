@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Fix-Contact-module-issues-access-co-44e420bf74839190d9d78095704188473b353678
+    newTag: backend-Enhance-LeadBulkImport-functionalit-3ad85fa5ea85c54e8f01e9ba874580d99dd00013
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Fix-Contact-module-issues-access-co-44e420bf74839190d9d78095704188473b353678"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-LeadBulkImport-functionalit-3ad85fa5ea85c54e8f01e9ba874580d99dd00013"
