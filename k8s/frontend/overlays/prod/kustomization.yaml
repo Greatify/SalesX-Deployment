@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-ContactModal-and-LeadModal-29183eefd3933d6716be5ab54ae87a77ff94b737
+    newTag: frontend-Enhance-LeadModal-and-UnifiedTimeli-02f4db48a00dd07ce90e1879274e03c16ee4a9d9
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-ContactModal-and-LeadModal-29183eefd3933d6716be5ab54ae87a77ff94b737"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-LeadModal-and-UnifiedTimeli-02f4db48a00dd07ce90e1879274e03c16ee4a9d9"
