@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Update-URL-patterns-in-quotesurlspy-78c5f438250e3010565ee8fdc86738e5e3c5bb87
+    newTag: backend-Enhance-LeadModal-and-UnifiedTimeli-02f4db48a00dd07ce90e1879274e03c16ee4a9d9
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-URL-patterns-in-quotesurlspy-78c5f438250e3010565ee8fdc86738e5e3c5bb87"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-LeadModal-and-UnifiedTimeli-02f4db48a00dd07ce90e1879274e03c16ee4a9d9"
