@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-SLA-99-Enhance-user-management-feat-ac805221bc01f4b1fbbee78f7724a4668ba9cfe5
+    newTag: backend-Update-URL-patterns-in-quotesurlspy-78c5f438250e3010565ee8fdc86738e5e3c5bb87
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-SLA-99-Enhance-user-management-feat-ac805221bc01f4b1fbbee78f7724a4668ba9cfe5"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-URL-patterns-in-quotesurlspy-78c5f438250e3010565ee8fdc86738e5e3c5bb87"
