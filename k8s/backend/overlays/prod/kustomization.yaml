@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Enhance-LeadModal-and-UnifiedTimeli-02f4db48a00dd07ce90e1879274e03c16ee4a9d9
+    newTag: backend-Enhance-Lead-serializers-to-include-83207d36066ecbb96554db794aad66ff8539da90
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-LeadModal-and-UnifiedTimeli-02f4db48a00dd07ce90e1879274e03c16ee4a9d9"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-Lead-serializers-to-include-83207d36066ecbb96554db794aad66ff8539da90"
