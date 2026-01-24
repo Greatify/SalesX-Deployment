@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Enhance-Lead-serializers-to-include-83207d36066ecbb96554db794aad66ff8539da90
+    newTag: backend-Fix-Contact-module-issues-access-co-44e420bf74839190d9d78095704188473b353678
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-Lead-serializers-to-include-83207d36066ecbb96554db794aad66ff8539da90"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Fix-Contact-module-issues-access-co-44e420bf74839190d9d78095704188473b353678"
