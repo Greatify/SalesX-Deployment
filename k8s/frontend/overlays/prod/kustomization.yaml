@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Update-TargetManagement-to-include-6df154a341a5c1ab0b30888a6e6755db312bd0a4
+    newTag: frontend-Fix-Contact-module-issues-access-co-44e420bf74839190d9d78095704188473b353678
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Update-TargetManagement-to-include-6df154a341a5c1ab0b30888a6e6755db312bd0a4"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Fix-Contact-module-issues-access-co-44e420bf74839190d9d78095704188473b353678"
