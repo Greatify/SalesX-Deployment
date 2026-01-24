@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-ActivityTimeline-with-dark-fe6aaebd4baf7da05fe33df9c1b74fd11a5d2abc
+    newTag: frontend-Update-TargetManagement-to-include-6df154a341a5c1ab0b30888a6e6755db312bd0a4
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-ActivityTimeline-with-dark-fe6aaebd4baf7da05fe33df9c1b74fd11a5d2abc"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Update-TargetManagement-to-include-6df154a341a5c1ab0b30888a6e6755db312bd0a4"
