@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-ContactModal-with-tabbed-in-998b147f33e084752fdcf990499d738a45da5d7d
+    newTag: frontend-Refactor-ContactModal-to-streamline-dbb0acf7bea4f2f1eb9ab6b8d50b541ed62ea3a0
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-ContactModal-with-tabbed-in-998b147f33e084752fdcf990499d738a45da5d7d"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-ContactModal-to-streamline-dbb0acf7bea4f2f1eb9ab6b8d50b541ed62ea3a0"
