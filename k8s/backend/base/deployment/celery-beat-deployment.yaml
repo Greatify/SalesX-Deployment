@@ -72,6 +72,10 @@ spec:
               value: "production"
             - name: C_FORCE_ROOT
               value: "true"
+            - name: FIREBASE_CREDENTIALS_PATH
+              value: "/app/firebase-credentials.json"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "/app/firebase-credentials.json"
           volumeMounts:
             - name: salesx-secrets-volume
               mountPath: /mnt/secret-store
@@ -81,4 +85,11 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: ['sh', '-c', 'cp -R /mnt/secret-store/.env /app/.env']
+                command: 
+                  - 'sh'
+                  - '-c'
+                  - |
+                    cp /mnt/secret-store/.env /app/.env
+                    if [ -f /mnt/secret-store/firebase-credentials.json ]; then
+                      cp /mnt/secret-store/firebase-credentials.json /app/firebase-credentials.json
+                    fi
