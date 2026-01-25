@@ -40,6 +40,12 @@ spec:
             readOnly: true
             volumeAttributes:
               secretProviderClass: salesx-backend-secrets
+        - name: salesx-firebase-credentials
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: salesx-backend-secrets
         - name: nginx-config
           configMap:
             name: salesx-backend-nginx-config
@@ -98,6 +104,9 @@ spec:
             - name: salesx-secrets-volume
               mountPath: /mnt/secret-store
               readOnly: true
+            - name: salesx-firebase-credentials
+              mountPath: /app/firebase-credentials.json
+              subPath: firebase-credentials.json
             - name: config-volume
               mountPath: /etc/nginx/nginx.conf
               subPath: nginx.conf
@@ -113,14 +122,7 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: 
-                  - 'sh'
-                  - '-c'
-                  - |
-                    cp /mnt/secret-store/.env /app/.env
-                    if [ -f /mnt/secret-store/firebase-credentials.json ]; then
-                      cp /mnt/secret-store/firebase-credentials.json /app/firebase-credentials.json
-                    fi
+                command: ['sh', '-c', 'cp /mnt/secret-store/.env /app/.env']
           livenessProbe:
             httpGet:
               path: /api/health/
