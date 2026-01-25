@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Implement-Firebase-and-OpenRouter-i-163c8050220c29406382e5e0368ddd6440cdaa57
+    newTag: backend-Add-file-upload-functionality-and-e-b2c079d7dab2705ce858c260d03736e7b66b2b59
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-Firebase-and-OpenRouter-i-163c8050220c29406382e5e0368ddd6440cdaa57"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-file-upload-functionality-and-e-b2c079d7dab2705ce858c260d03736e7b66b2b59"
