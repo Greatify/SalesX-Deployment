@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-file-upload-functionality-and-e-b2c079d7dab2705ce858c260d03736e7b66b2b59
+    newTag: backend-Implement-Exa-based-enrichment-feat-7c2881c7b504fdb2d9f4d07cdcb58cc2edb68307
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-file-upload-functionality-and-e-b2c079d7dab2705ce858c260d03736e7b66b2b59"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-Exa-based-enrichment-feat-7c2881c7b504fdb2d9f4d07cdcb58cc2edb68307"
