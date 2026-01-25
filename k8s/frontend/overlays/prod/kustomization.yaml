@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-LeadBulkImport-functionalit-3ad85fa5ea85c54e8f01e9ba874580d99dd00013
+    newTag: frontend-Implement-Firebase-and-OpenRouter-i-163c8050220c29406382e5e0368ddd6440cdaa57
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-LeadBulkImport-functionalit-3ad85fa5ea85c54e8f01e9ba874580d99dd00013"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-Firebase-and-OpenRouter-i-163c8050220c29406382e5e0368ddd6440cdaa57"
