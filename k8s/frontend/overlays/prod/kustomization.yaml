@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Implement-Firebase-and-OpenRouter-i-163c8050220c29406382e5e0368ddd6440cdaa57
+    newTag: frontend-Implement-Exa-based-enrichment-feat-7c2881c7b504fdb2d9f4d07cdcb58cc2edb68307
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-Firebase-and-OpenRouter-i-163c8050220c29406382e5e0368ddd6440cdaa57"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-Exa-based-enrichment-feat-7c2881c7b504fdb2d9f4d07cdcb58cc2edb68307"
