@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Implement-Exa-based-enrichment-feat-7c2881c7b504fdb2d9f4d07cdcb58cc2edb68307
+    newTag: backend-Refactor-email-configuration-endpoi-f16f637b097d7fbfbdf881bbeb0c03ab77c3fb88
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-Exa-based-enrichment-feat-7c2881c7b504fdb2d9f4d07cdcb58cc2edb68307"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Refactor-email-configuration-endpoi-f16f637b097d7fbfbdf881bbeb0c03ab77c3fb88"
