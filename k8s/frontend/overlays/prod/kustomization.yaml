@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Refactor-email-configuration-endpoi-f16f637b097d7fbfbdf881bbeb0c03ab77c3fb88
+    newTag: frontend-Enhance-user-deactivation-process-a-e03208c0c6a1266fc5efeb131fb7cfb34ceec360
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-email-configuration-endpoi-f16f637b097d7fbfbdf881bbeb0c03ab77c3fb88"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-user-deactivation-process-a-e03208c0c6a1266fc5efeb131fb7cfb34ceec360"
