@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Integrate-Google-Maps-API-into-mobi-27b802335e447335699654bbb1731b60bb25c057
+    newTag: frontend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Integrate-Google-Maps-API-into-mobi-27b802335e447335699654bbb1731b60bb25c057"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060"
