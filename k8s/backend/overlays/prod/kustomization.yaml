@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Update-email-configuration-to-use-d-c4e0ae90f7e3d66206789db35b52d76b80f3c9e3
+    newTag: backend-Update-pagination-configuration-in-0eb39da54beb33b0a7781a3493b5b71b71ae062b
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-email-configuration-to-use-d-c4e0ae90f7e3d66206789db35b52d76b80f3c9e3"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-pagination-configuration-in-0eb39da54beb33b0a7781a3493b5b71b71ae062b"
