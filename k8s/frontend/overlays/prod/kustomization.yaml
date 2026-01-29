@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Refactor-view-mode-button-variants-24d5dd401ccf1b9fcb322db6d5a0a8a1b1e95295
+    newTag: frontend-SLA-106-Enhance-phone-number-input-46d98aa070026e64ed084a024adceb1e2c9798ba
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-view-mode-button-variants-24d5dd401ccf1b9fcb322db6d5a0a8a1b1e95295"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-SLA-106-Enhance-phone-number-input-46d98aa070026e64ed084a024adceb1e2c9798ba"
