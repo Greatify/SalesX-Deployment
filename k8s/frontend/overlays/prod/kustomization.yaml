@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-SLA-106-Enhance-phone-number-input-46d98aa070026e64ed084a024adceb1e2c9798ba
+    newTag: frontend-Add-lead-notes-and-attachments-mana-977fd925f2771e62e64c04989f472349992ac734
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-SLA-106-Enhance-phone-number-input-46d98aa070026e64ed084a024adceb1e2c9798ba"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-lead-notes-and-attachments-mana-977fd925f2771e62e64c04989f472349992ac734"
