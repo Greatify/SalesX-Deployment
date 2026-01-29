@@ -101,6 +101,17 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
       
+      - name: 🚀 Publish OTA Update
+        working-directory: mobile
+        run: |
+          echo "Publishing OTA update to ${{ github.event.inputs.environment }} channel..."
+          eas update \
+            --channel ${{ github.event.inputs.environment }} \
+            --message "Build ${{ github.event.inputs.environment }} from ${{ github.event.inputs.branch }}" \
+            --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      
       - name: 📋 Android Build Summary
         run: |
           echo "### ✅ Android Build Complete!" >> $GITHUB_STEP_SUMMARY
@@ -115,6 +126,16 @@ jobs:
           echo "1. Open the APK link on your Android device" >> $GITHUB_STEP_SUMMARY
           echo "2. Allow installation from unknown sources" >> $GITHUB_STEP_SUMMARY
           echo "3. Install the app" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔄 OTA Update Published!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Update Channel:** ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**How OTA Updates Work:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Existing apps will auto-check for updates on launch" >> $GITHUB_STEP_SUMMARY
+          echo "- Update downloads in background" >> $GITHUB_STEP_SUMMARY
+          echo "- User sees 'Update Ready! Restart to apply' modal" >> $GITHUB_STEP_SUMMARY
+          echo "- Updates apply within minutes without reinstalling APK" >> $GITHUB_STEP_SUMMARY
   
   build-ios:
     name: Build iOS and Submit to TestFlight
@@ -203,6 +224,17 @@ jobs:
           EXPO_APPLE_ID: ${{ secrets.EXPO_APPLE_ID }}
           EXPO_APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.EXPO_APPLE_APP_SPECIFIC_PASSWORD }}
       
+      - name: 🚀 Publish iOS OTA Update
+        working-directory: mobile
+        run: |
+          echo "Publishing OTA update to production channel..."
+          eas update \
+            --channel production \
+            --message "iOS build from ${{ github.event.inputs.branch }}" \
+            --non-interactive
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      
       - name: 📋 iOS Build Summary
         run: |
           echo "### ✅ iOS Build Complete and Submitted to TestFlight!" >> $GITHUB_STEP_SUMMARY
@@ -226,3 +258,13 @@ jobs:
           echo "3. Tap 'Install' in TestFlight" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Build available in TestFlight within 15 minutes!**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 🔄 OTA Update Published!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Update Channel:** production" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**How OTA Updates Work:**" >> $GITHUB_STEP_SUMMARY
+          echo "- Existing apps will auto-check for updates on launch" >> $GITHUB_STEP_SUMMARY
+          echo "- Update downloads in background" >> $GITHUB_STEP_SUMMARY
+          echo "- User sees 'Update Ready! Restart to apply' modal" >> $GITHUB_STEP_SUMMARY
+          echo "- Updates apply within minutes without reinstalling" >> $GITHUB_STEP_SUMMARY
