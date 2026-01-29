@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af
+    newTag: backend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060"
