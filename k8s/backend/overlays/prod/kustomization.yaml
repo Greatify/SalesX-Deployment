@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Update-pagination-configuration-in-0eb39da54beb33b0a7781a3493b5b71b71ae062b
+    newTag: backend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Update-pagination-configuration-in-0eb39da54beb33b0a7781a3493b5b71b71ae062b"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af"
