@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060
+    newTag: backend-Enhance-email-entity-linking-and-sy-dab0fb35bdce421f17f2f391f15954268e549a74
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-email-entity-linking-and-sy-dab0fb35bdce421f17f2f391f15954268e549a74"
