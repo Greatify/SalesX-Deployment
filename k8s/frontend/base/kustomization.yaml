@@ -21,7 +21,7 @@ resources:
   - configmap/nginx-config.yaml
   
   # Secrets
-  - secrets/salesx-frontend-secrets.yaml
+  # - secrets/salesx-frontend-secrets.yaml
   
   # Autoscaling
   - autoscaling/frontend-hpa.yaml
