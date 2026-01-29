@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-user-deactivation-process-a-e03208c0c6a1266fc5efeb131fb7cfb34ceec360
+    newTag: frontend-Refactor-view-mode-button-variants-24d5dd401ccf1b9fcb322db6d5a0a8a1b1e95295
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-user-deactivation-process-a-e03208c0c6a1266fc5efeb131fb7cfb34ceec360"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-view-mode-button-variants-24d5dd401ccf1b9fcb322db6d5a0a8a1b1e95295"
