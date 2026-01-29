@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af
+    newTag: frontend-Integrate-Google-Maps-API-into-mobi-27b802335e447335699654bbb1731b60bb25c057
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Integrate-Google-Maps-API-into-mobi-27b802335e447335699654bbb1731b60bb25c057"
