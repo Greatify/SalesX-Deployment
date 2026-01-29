@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Merge-pull-request-20-from-Greatify-c5e29731566452a0316462a4a2e9a52e5e062d93
+    newTag: frontend-Update-email-configuration-to-use-d-c4e0ae90f7e3d66206789db35b52d76b80f3c9e3
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Merge-pull-request-20-from-Greatify-c5e29731566452a0316462a4a2e9a52e5e062d93"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Update-email-configuration-to-use-d-c4e0ae90f7e3d66206789db35b52d76b80f3c9e3"
