@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Refactor-currency-formatting-and-ba-b8ad1dff8b2444ade206e4b7ad1d7d59252b4387
+    newTag: frontend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-currency-formatting-and-ba-b8ad1dff8b2444ade206e4b7ad1d7d59252b4387"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-user-filtering-capabilities-to-ef566da9db4d4fd431062e1a4b427e58be80a4af"
