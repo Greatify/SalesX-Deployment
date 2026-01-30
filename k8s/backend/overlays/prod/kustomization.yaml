@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Enhance-email-entity-linking-and-sy-dab0fb35bdce421f17f2f391f15954268e549a74
+    newTag: backend-Implement-targeted-domain-based-ema-869ad0b6f2dc6f077081ba782754f3ff2dbb0345
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-email-entity-linking-and-sy-dab0fb35bdce421f17f2f391f15954268e549a74"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-targeted-domain-based-ema-869ad0b6f2dc6f077081ba782754f3ff2dbb0345"
