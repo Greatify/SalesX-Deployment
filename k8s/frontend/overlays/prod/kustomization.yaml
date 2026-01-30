@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060
+    newTag: frontend-Implement-targeted-domain-based-ema-869ad0b6f2dc6f077081ba782754f3ff2dbb0345
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-Gmail-integration-settings-mana-abc1531efac41d4bafcc3065aef35a96ff822060"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-targeted-domain-based-ema-869ad0b6f2dc6f077081ba782754f3ff2dbb0345"
