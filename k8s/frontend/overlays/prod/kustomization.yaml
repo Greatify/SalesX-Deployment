@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Update-gitignore-enhance-local-sett-6f6d8828129f9e21dc39412812c0af18ce078261
+    newTag: frontend-Refactor-Dashboard-layout-by-removi-314a6f7afca3db691dc4a6a607d91f82bf7b87eb
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Update-gitignore-enhance-local-sett-6f6d8828129f9e21dc39412812c0af18ce078261"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-Dashboard-layout-by-removi-314a6f7afca3db691dc4a6a607d91f82bf7b87eb"
