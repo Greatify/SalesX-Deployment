@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Refactor-Dashboard-layout-by-removi-314a6f7afca3db691dc4a6a607d91f82bf7b87eb
+    newTag: frontend-Add-Frontend-Design-System-guidelin-44089ca7fd07ec1d37fb40b7007994db1aab32cf
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-Dashboard-layout-by-removi-314a6f7afca3db691dc4a6a607d91f82bf7b87eb"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-Frontend-Design-System-guidelin-44089ca7fd07ec1d37fb40b7007994db1aab32cf"
