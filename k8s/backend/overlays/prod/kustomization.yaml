@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Implement-targeted-domain-based-ema-869ad0b6f2dc6f077081ba782754f3ff2dbb0345
+    newTag: backend-Refactor-website-field-type-and-enh-f9bf2edb6ba3b462c60b93e5507fef2f7b47dd9a
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-targeted-domain-based-ema-869ad0b6f2dc6f077081ba782754f3ff2dbb0345"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Refactor-website-field-type-and-enh-f9bf2edb6ba3b462c60b93e5507fef2f7b47dd9a"
