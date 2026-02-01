@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Refactor-Checkbox-and-DataTable-com-9603db56727099df81d9542cd3ecdca2a55c34f1
+    newTag: frontend-Enhance-Contacts-and-Quotes-pages-w-9308dc7dc9f656516ed17840bb62318033765f00
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-Checkbox-and-DataTable-com-9603db56727099df81d9542cd3ecdca2a55c34f1"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-Contacts-and-Quotes-pages-w-9308dc7dc9f656516ed17840bb62318033765f00"
