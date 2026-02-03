@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Update-sidebar-styles-and-transitio-b754e452802798fe6812b5fb4f624f27902fcc62
+    newTag: frontend-Add-universal-search-functionality-f423e860e0ab1d799362008f3393c441d8fdfdc4
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Update-sidebar-styles-and-transitio-b754e452802798fe6812b5fb4f624f27902fcc62"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-universal-search-functionality-f423e860e0ab1d799362008f3393c441d8fdfdc4"
