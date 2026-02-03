@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-sidebar-UI-with-glass-effec-624f8b940b12e11ccb2d9cbc28442b6516cb6a74
+    newTag: frontend-Update-sidebar-styles-and-transitio-b754e452802798fe6812b5fb4f624f27902fcc62
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-sidebar-UI-with-glass-effec-624f8b940b12e11ccb2d9cbc28442b6516cb6a74"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Update-sidebar-styles-and-transitio-b754e452802798fe6812b5fb4f624f27902fcc62"
