@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Refactor-website-field-type-and-enh-f9bf2edb6ba3b462c60b93e5507fef2f7b47dd9a
+    newTag: backend-Add-universal-search-functionality-f423e860e0ab1d799362008f3393c441d8fdfdc4
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Refactor-website-field-type-and-enh-f9bf2edb6ba3b462c60b93e5507fef2f7b47dd9a"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-universal-search-functionality-f423e860e0ab1d799362008f3393c441d8fdfdc4"
