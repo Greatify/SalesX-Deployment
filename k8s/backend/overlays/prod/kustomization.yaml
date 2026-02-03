@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-universal-search-functionality-f423e860e0ab1d799362008f3393c441d8fdfdc4
+    newTag: backend-Add-Gmail-user-sync-toggle-function-fcad3b180191185fd5b6d184b08ef01a4e484940
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-universal-search-functionality-f423e860e0ab1d799362008f3393c441d8fdfdc4"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-Gmail-user-sync-toggle-function-fcad3b180191185fd5b6d184b08ef01a4e484940"
