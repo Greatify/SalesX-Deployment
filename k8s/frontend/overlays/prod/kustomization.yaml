@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Add-end-to-end-testing-guidelines-a-d919a7a2346b785e33303acaa63bcf1d30efcdfd
+    newTag: frontend-Refactor-FollowUpsCard-and-LeadDeta-2c00db53d99cdd97f6ecefa6538261fcb808f587
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-end-to-end-testing-guidelines-a-d919a7a2346b785e33303acaa63bcf1d30efcdfd"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-FollowUpsCard-and-LeadDeta-2c00db53d99cdd97f6ecefa6538261fcb808f587"
