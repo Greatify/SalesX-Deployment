@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Refactor-FollowUpsCard-and-LeadDeta-2c00db53d99cdd97f6ecefa6538261fcb808f587
+    newTag: frontend-Add-Gmail-user-sync-toggle-function-fcad3b180191185fd5b6d184b08ef01a4e484940
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Refactor-FollowUpsCard-and-LeadDeta-2c00db53d99cdd97f6ecefa6538261fcb808f587"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-Gmail-user-sync-toggle-function-fcad3b180191185fd5b6d184b08ef01a4e484940"
