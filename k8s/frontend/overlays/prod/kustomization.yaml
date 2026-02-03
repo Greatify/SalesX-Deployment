@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Add-Gmail-user-sync-toggle-function-fcad3b180191185fd5b6d184b08ef01a4e484940
+    newTag: frontend-Implement-lead-team-management-feat-2eeae6f77a426a6bb56ef0be4ff08a35cf0b4739
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-Gmail-user-sync-toggle-function-fcad3b180191185fd5b6d184b08ef01a4e484940"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-lead-team-management-feat-2eeae6f77a426a6bb56ef0be4ff08a35cf0b4739"
