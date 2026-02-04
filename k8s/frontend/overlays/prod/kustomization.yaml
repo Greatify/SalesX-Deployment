@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Add-bulk-delete-functionality-for-l-fc7dfb15e88450705eac949a6728d6d029b557be
+    newTag: frontend-Add-activity-trend-and-lead-distrib-6b91b9d39f705b86410bbae6e05863cdfa9f25bf
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-bulk-delete-functionality-for-l-fc7dfb15e88450705eac949a6728d6d029b557be"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-activity-trend-and-lead-distrib-6b91b9d39f705b86410bbae6e05863cdfa9f25bf"
