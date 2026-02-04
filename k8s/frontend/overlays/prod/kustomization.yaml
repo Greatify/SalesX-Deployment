@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Enhance-email-sync-functionality-an-7894d9ebbcbdf398dd404ac6900d98e603ce3a0f
+    newTag: frontend-Add-Gmail-user-force-sync-functiona-0e11d64f501209fe1b6c16d25fdf7b286212d393
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-email-sync-functionality-an-7894d9ebbcbdf398dd404ac6900d98e603ce3a0f"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-Gmail-user-force-sync-functiona-0e11d64f501209fe1b6c16d25fdf7b286212d393"
