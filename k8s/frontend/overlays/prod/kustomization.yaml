@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Implement-lead-team-management-feat-2eeae6f77a426a6bb56ef0be4ff08a35cf0b4739
+    newTag: frontend-Implement-lead-team-management-feat-53b45cf13c494b3067ace169959bcb625166a052
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-lead-team-management-feat-2eeae6f77a426a6bb56ef0be4ff08a35cf0b4739"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-lead-team-management-feat-53b45cf13c494b3067ace169959bcb625166a052"
