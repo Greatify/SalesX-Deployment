@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-Gmail-user-force-sync-functiona-0e11d64f501209fe1b6c16d25fdf7b286212d393
+    newTag: backend-Implement-email-relinking-functiona-d168c959ff69a86608d00fa354e75a276f70cbd2
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-Gmail-user-force-sync-functiona-0e11d64f501209fe1b6c16d25fdf7b286212d393"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-email-relinking-functiona-d168c959ff69a86608d00fa354e75a276f70cbd2"
