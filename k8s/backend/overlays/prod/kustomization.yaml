@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Implement-email-relinking-functiona-d168c959ff69a86608d00fa354e75a276f70cbd2
+    newTag: backend-Enhance-email-linking-and-discovery-7ef87cf260cd6ff6faad6c30039c245c4f24d7a0
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Implement-email-relinking-functiona-d168c959ff69a86608d00fa354e75a276f70cbd2"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Enhance-email-linking-and-discovery-7ef87cf260cd6ff6faad6c30039c245c4f24d7a0"
