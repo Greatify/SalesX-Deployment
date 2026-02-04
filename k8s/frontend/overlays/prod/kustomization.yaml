@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Implement-email-relinking-functiona-d168c959ff69a86608d00fa354e75a276f70cbd2
+    newTag: frontend-Add-AI-Import-functionality-and-enh-6acc293f8b8d34cfce5f542e70c8cf9571bf854b
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-email-relinking-functiona-d168c959ff69a86608d00fa354e75a276f70cbd2"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Add-AI-Import-functionality-and-enh-6acc293f8b8d34cfce5f542e70c8cf9571bf854b"
