@@ -23,7 +23,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: backend-Add-AI-Import-functionality-and-enh-6acc293f8b8d34cfce5f542e70c8cf9571bf854b
+    newTag: backend-Add-bulk-delete-functionality-for-l-fc7dfb15e88450705eac949a6728d6d029b557be
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-AI-Import-functionality-and-enh-6acc293f8b8d34cfce5f542e70c8cf9571bf854b"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:backend-Add-bulk-delete-functionality-for-l-fc7dfb15e88450705eac949a6728d6d029b557be"
