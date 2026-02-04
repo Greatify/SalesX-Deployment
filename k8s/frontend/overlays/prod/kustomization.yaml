@@ -17,7 +17,7 @@ patchesStrategicMerge:
 
 images:
   - name: 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx
-    newTag: frontend-Implement-lead-team-management-feat-53b45cf13c494b3067ace169959bcb625166a052
+    newTag: frontend-Enhance-email-sync-functionality-an-7894d9ebbcbdf398dd404ac6900d98e603ce3a0f
 
 commonAnnotations:
-  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Implement-lead-team-management-feat-53b45cf13c494b3067ace169959bcb625166a052"
+  kubernetes.io/change-cause: "Updated to 399600302704.dkr.ecr.ap-south-1.amazonaws.com/salesx:frontend-Enhance-email-sync-functionality-an-7894d9ebbcbdf398dd404ac6900d98e603ce3a0f"
